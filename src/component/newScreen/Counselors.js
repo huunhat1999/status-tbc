@@ -7,6 +7,9 @@ import Moment from 'react-moment';
 import {functionCounselors} from '../../ListCounselors'
 import _ from "lodash"
 import { Modal,Button } from 'react-bootstrap';
+import { tokenGeneral } from '../Token';
+import { apiCounselors } from '../../api/Api';
+import {socket} from '../../socket/Socket'
 
 const findStatus = (data, val) => {
   var tmp = _.filter(data, {listStatus: val})
@@ -38,8 +41,10 @@ class Counselors extends Component {
   componentDidMount(){
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-    axios.defaults.headers.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoibmhhdC50cmFuQHRhbmhvbmdteWdyb3VwLmNvbSIsIm5hbWUiOiJUcuG6p24gSOG7r3UgTmjhuq10IiwidXNlck5hbWUiOiJuaGF0dGgiLCJ1c2VyVHlwZSI6ImNsaWVudCIsImJyYW5jaENvZGVBcnIiOltdLCJhcHBOYW1lIjoiQklfQVBQIiwiaWF0IjoxNjI0NTg0MTAxLCJleHAiOjE2MjQ2NzA1MDF9.RjeaeCP4NwqN1m7XoFxmC7SASLx_EhsQYtns23RLJ8k'
-    axios.post(`https://stagingapi.trangbeautycenter.com/api/queue-consultation/get-data-with-filter`,{
+    const token = localStorage.getItem('tokenGeneral')
+    console.log("tokenRes",token);
+    axios.defaults.headers.token = token
+    axios.post(apiCounselors,{
       "condition": {
         "created": {
           "from": from,
@@ -53,24 +58,13 @@ class Counselors extends Component {
       "page": 1
   })
       .then(res => {
-        // let booking = res.data.data
         console.log(res);
         this.setState({bookingWaiting: res.data.data})
         console.log("bookingTuVan", res.data.data);
     })
-    var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoibmhhdC50cmFuQHRhbmhvbmdteWdyb3VwLmNvbSIsIm5hbWUiOiJUcuG6p24gSOG7r3UgTmjhuq10IiwidXNlck5hbWUiOiJuaGF0dGgiLCJ1c2VyVHlwZSI6ImNsaWVudCIsImJyYW5jaENvZGVBcnIiOltdLCJhcHBOYW1lIjoiQklfQVBQIiwiaWF0IjoxNjI0NTg0MTAxLCJleHAiOjE2MjQ2NzA1MDF9.RjeaeCP4NwqN1m7XoFxmC7SASLx_EhsQYtns23RLJ8k';
-    const host = 'https://stagingapi.trangbeautycenter.com/mng-app'
-    const socket = io(host, {
-      query: {
-        accessToken: token
-      },
-      transports: ['websocket']
-    });
-    
     socket.on('connect',function() {
         console.log('connect ok', socket.id)
     });
-
     socket.on('SSC_QUEUE_CONSULTATION_UPDATE', (booking)=> {
       console.log("SSC_QUEUE_CONSULTATION_UPDATE",booking);
       console.log("listbooking",this.state.bookingWaiting)
@@ -94,7 +88,7 @@ class Counselors extends Component {
     
     socket.on('SSC_QUEUE_CONSULTATION_CREATE',(booking)=> {
       console.log("checkQueue",booking);
-      let tempListBookingWaiting = [booking.queue,...this.state.bookingWaiting];
+      let tempListBookingWaiting = [...this.state.bookingWaiting,booking.queue];
       this.setState({
         bookingWaiting: tempListBookingWaiting
       });

@@ -53,7 +53,7 @@ tr:nth-child(even) {
 }
 table {
     font-family: arial, sans-serif;
-    width: 100%;
+    width: 99%;
     margin: auto;
 }
 thead {
@@ -62,8 +62,8 @@ thead {
 }
 th {
     padding: 6px;
-    text-align: center;
     border: 1px solid #fff;
+    padding-left: 21px;
 }
 td {
     padding: 10px;
@@ -205,4 +205,8 @@ label.divDV {
     color: #FFF;
     line-height: 1.2;
     padding-top: 10px;
+}
+.tbody {
+    overflow: auto;
+    height: 500px;
 }

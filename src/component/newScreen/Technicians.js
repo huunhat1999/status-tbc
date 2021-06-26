@@ -7,6 +7,9 @@ import Moment from 'react-moment';
 import {functionTech} from '../../LisTechnicians'
 import {functionDoctor} from '../../LisTechnicians'
 import _ from "lodash"
+import { apiTechnicians } from '../../api/Api';
+import { tokenGeneral } from '../Token';
+import {socket} from '../../socket/Socket'
  
 const findStatus = (data, val) => {
   var tmp = _.filter(data, {listStatus: val})
@@ -46,8 +49,10 @@ class Technicians extends Component {
   componentWillMount(){
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-    axios.defaults.headers.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoibmhhdC50cmFuQHRhbmhvbmdteWdyb3VwLmNvbSIsIm5hbWUiOiJUcuG6p24gSOG7r3UgTmjhuq10IiwidXNlck5hbWUiOiJuaGF0dGgiLCJ1c2VyVHlwZSI6ImNsaWVudCIsImJyYW5jaENvZGVBcnIiOltdLCJhcHBOYW1lIjoiQklfQVBQIiwiaWF0IjoxNjI0NTg0MTAxLCJleHAiOjE2MjQ2NzA1MDF9.RjeaeCP4NwqN1m7XoFxmC7SASLx_EhsQYtns23RLJ8k'
-    axios.get(`https://stagingapi.trangbeautycenter.com/api/treatment-queue`,{params:{
+    const token = localStorage.getItem('tokenGeneral')
+    console.log("tokenRes",token);
+    axios.defaults.headers.token = token
+    axios.get(apiTechnicians,{params:{
       "condition": {
         "created": {
           "from": from,
@@ -64,15 +69,6 @@ class Technicians extends Component {
         this.setState({bookingWaiting:res.data.data})
         console.log("booking",res.data.data);
     })
-    var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoibmhhdC50cmFuQHRhbmhvbmdteWdyb3VwLmNvbSIsIm5hbWUiOiJUcuG6p24gSOG7r3UgTmjhuq10IiwidXNlck5hbWUiOiJuaGF0dGgiLCJ1c2VyVHlwZSI6ImNsaWVudCIsImJyYW5jaENvZGVBcnIiOltdLCJhcHBOYW1lIjoiQklfQVBQIiwiaWF0IjoxNjI0NTg0MTAxLCJleHAiOjE2MjQ2NzA1MDF9.RjeaeCP4NwqN1m7XoFxmC7SASLx_EhsQYtns23RLJ8k';
-    const host = 'https://stagingapi.trangbeautycenter.com/mng-app'
-    const socket = io(host, {
-      query: {
-        accessToken: token
-      },
-      transports: ['websocket']
-    });
-    
     socket.on('connect',function() {
         console.log('connect ok', socket.id)
     });
@@ -93,7 +89,7 @@ class Technicians extends Component {
 
     socket.on('SSC_TREATMENT_QUEUE_CREATE', (queue)=> {
      console.log("createTreatment",queue);
-     let tempListBookingWaiting = [queue.queue,...this.state.bookingWaiting];
+     let tempListBookingWaiting = [...this.state.bookingWaiting,queue.queue];
      this.setState({
        bookingWaiting: tempListBookingWaiting
      });

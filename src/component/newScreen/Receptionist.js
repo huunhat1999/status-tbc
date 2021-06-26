@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import '../design/style.css'
 import Footer from './general/Footer';
 import Header from './general/Header';
-import io from 'socket.io-client'
 import axios from 'axios';
 import Moment from 'react-moment';
 import {functionColorStatus} from '../../ListReceptionist'
 import _ from "lodash"
+import {tokenGeneral} from '../Token'
+import {socket} from '../../socket/Socket'
+import { apiReceptionist } from '../../api/Api';
 console.log("FC",functionColorStatus);
 
 const findStatus = (data, val) => {
@@ -30,13 +32,21 @@ class Receptionist extends Component {
     ],
   }
 }
+// scrollToBottom = () => {
+//   const scroll = this.chatContainer.current.scrollHeight - this.chatContainer.current.clientHeight;
+//   this.chatContainer.current.scrollTo(0, scroll);
+//   console.log("scroll",croll);
+// };
+
   componentDidMount(){
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-    axios.defaults.headers.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoibmhhdC50cmFuQHRhbmhvbmdteWdyb3VwLmNvbSIsIm5hbWUiOiJUcuG6p24gSOG7r3UgTmjhuq10IiwidXNlck5hbWUiOiJuaGF0dGgiLCJ1c2VyVHlwZSI6ImNsaWVudCIsImJyYW5jaENvZGVBcnIiOltdLCJhcHBOYW1lIjoiQklfQVBQIiwiaWF0IjoxNjI0NTg0MTAxLCJleHAiOjE2MjQ2NzA1MDF9.RjeaeCP4NwqN1m7XoFxmC7SASLx_EhsQYtns23RLJ8k'
-    axios.post(`https://stagingapi.trangbeautycenter.com/api/bookings/get-data-with-filter`,{
+    const token=JSON.parse(localStorage.getItem(`tokenGeneral`))
+    console.log("tokenRes",token);
+    axios.defaults.headers.token = token
+    axios.post(apiReceptionist,{
               branchCode:{
-                in: ['1']
+                in: ['GZRZqMRR']
             },
             status: {
               in: ['1']
@@ -53,7 +63,7 @@ class Receptionist extends Component {
                 }
             },
             sort: {
-              "created": -1 
+              "created": 1 
           },
         "limit": 100,
         "page": 1
@@ -62,15 +72,6 @@ class Receptionist extends Component {
         this.setState({bookingWaiting:res.data.data})
         console.log("bookingFilter",res.data.data);
     })
-    var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoibmhhdC50cmFuQHRhbmhvbmdteWdyb3VwLmNvbSIsIm5hbWUiOiJUcuG6p24gSOG7r3UgTmjhuq10IiwidXNlck5hbWUiOiJuaGF0dGgiLCJ1c2VyVHlwZSI6ImNsaWVudCIsImJyYW5jaENvZGVBcnIiOltdLCJhcHBOYW1lIjoiQklfQVBQIiwiaWF0IjoxNjI0NTg0MTAxLCJleHAiOjE2MjQ2NzA1MDF9.RjeaeCP4NwqN1m7XoFxmC7SASLx_EhsQYtns23RLJ8k';
-    const host = 'https://stagingapi.trangbeautycenter.com/mng-app'
-    const socket = io(host, {
-      query: {
-        accessToken: token
-      },
-      transports: ['websocket']
-    });
-    
     socket.on('connect',function() {
         console.log('connect ok', socket.id)
     });
@@ -89,7 +90,7 @@ class Receptionist extends Component {
     });
     socket.on('SSC_QUEUE_CONSULTATION_CREATE',(booking)=> {
       console.log("checkQueue",booking);
-      let tempListBookingWaiting = [booking.queue.booking,...this.state.bookingWaiting];
+      let tempListBookingWaiting = [...this.state.bookingWaiting,booking.queue.booking];
       this.setState({
         bookingWaiting: tempListBookingWaiting
       });
@@ -116,6 +117,7 @@ class Receptionist extends Component {
                         <div className="row">
                           <div className="col-md-12">
                             <div className="main-right">
+                            <div className="thead">
                               <table>
                                 <thead>
                                   <tr>
@@ -126,6 +128,10 @@ class Receptionist extends Component {
                                     <th className="time">Thời gian</th>
                                   </tr>
                                 </thead>
+                                </table>
+                                </div>
+                                <div className="tbody">
+                                <table className="tbody">
                                 <tbody>
                                 {this.state.bookingWaiting.map((item,i)=>{
                                   var status = findStatus(functionColorStatus, item.status)
@@ -169,6 +175,7 @@ class Receptionist extends Component {
                                     })} 
                                 </tbody>
                               </table>
+                              </div>
                             </div>
                           </div>
                         </div>
