@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import Footer from './general/Footer';
 import Header from './general/Header';
-import io from 'socket.io-client'
 import axios from 'axios';
 import Moment from 'react-moment';
 import {functionTech} from '../../LisTechnicians'
-import {functionDoctor} from '../../LisTechnicians'
 import _ from "lodash"
 import { apiTechnicians } from '../../api/Api';
-import { tokenGeneral } from '../Token';
 import {socket} from '../../socket/Socket'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
  
 const findStatus = (data, val) => {
   var tmp = _.filter(data, {listStatus: val})
@@ -23,24 +27,11 @@ const findStatus = (data, val) => {
     return null
   }
 }
-
-// const doctor = (data, val) => {
-//   console.log("ssss",data);
-//   console.log("val",val);
-//   var tmp = _.filter(data, {listDoctor: val})
-//   console.log(tmp);
-//   if(tmp.length>0)
-//   {
-//     return tmp[0]
-//   }
-//   else
-//   {
-//     return null
-//   }
-// }
 class Technicians extends Component {
   constructor(props) {
+    
     super(props);
+    document.title="BÁC SĨ";
     this.state={
       bookingWaiting :[
     ],
@@ -49,7 +40,7 @@ class Technicians extends Component {
   componentWillMount(){
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-    const token = localStorage.getItem('tokenGeneral')
+    const token=JSON.parse(localStorage.getItem(`tokenGeneral`))
     console.log("tokenRes",token);
     axios.defaults.headers.token = token
     axios.get(apiTechnicians,{params:{
@@ -104,65 +95,65 @@ class Technicians extends Component {
             <div id="page">
             <Header></Header>
             <div className="main">
-            <div className="lt">BÁC SĨ</div>
               <div className="container">
                 <div className="main-page">
                     <div className="row">
                       <div className="col-md-12">
                         <div className="main-right">
-                          <table>
-                            <thead>
-                              <tr>
-                              <th className="stt2">#</th>
-                                <th className="name2">Khách hàng</th>
-                                <th className="phone">Điện thoại</th>
-                                <th className="service">Trạng thái</th>
-                                <th className="technical">Bác sĩ</th>
-                                <th className="time">Thời gian</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                            {this.state.bookingWaiting.map((item,i)=>{
-                              // if(item.booking!==null){
-                              var status = findStatus(functionTech, item.status)
-                              return (item.status==="WAIT" ||  item.status==="IS_CALLING" ||  item.status==="IN_PROGRESS" || item.status==="COMPLETE") && <tr key={i}>
-                                <td>
-                                  <div className="td">
-                                    <li className="td-li">{i+1}</li>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="td-name">
-                                    <li className="td-li">{item.booking.partnerName}</li>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="td-phone">
-                                     <li className="td-li" >{item.booking.partnerPhoneNumber.replace(item.booking.partnerPhoneNumber.slice(3,9,10),"ₓₓₓₓₓ")}</li>
-                                  </div>
-                                </td>
-                                <td>
-                                <div className="td-dv">
-                                     <li className="td-li"style={{color:`${status!==null && status.color}`}}>
-                                       {status!==null?status.returnStatus:item.status}</li>
-                                  </div> 
-                                </td>
-                                <td>
-                                  <div className="td-tech">
-                                    <li className="td-li" >{item.treatmentServices.map((item,i)=>{
-                                      return  <div style={{backgroundColor:`${status!==null && status.color}`}} key={i}><label className="divDV">{" Liệu trình "+(i+1)+" :"  }</label> { item.assignedTreatmentDoctorCode}</div>
-                                    })}</li>
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="td-time">
-                                  <li className="td-li"><Moment format="hh:mm">{item.booking.updated}</Moment> - <Moment format="DD/MM/YYYY">{item.booking.updated}</Moment></li>
-                                  </div>
-                                </td>
-                              </tr>
-                            })}
-                            </tbody>
-                          </table>
+                        <TableContainer component={Paper}>
+                            <Table aria-label="simple table" style={{minWidth:650}}>
+                              <TableHead>
+                                <TableRow>
+                                  <TableCell >#</TableCell>
+                                  <TableCell align="left" style={{Width:65}}>Khách hàng</TableCell>
+                                  <TableCell align="left">Điện thoại</TableCell>
+                                  <TableCell align="left">Trạng thái</TableCell>
+                                  <TableCell align="left" >Bác sĩ</TableCell>
+                                  <TableCell align="left">Thời gian</TableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                {this.state.bookingWaiting.map((item,i)=>{
+                                  var status = findStatus(functionTech, item.status)
+                                  return (item.status==="WAIT" ||  item.status==="IS_CALLING" ||  item.status==="IN_PROGRESS" || item.status==="COMPLETE") && <TableRow  key={i}>
+                                    <TableCell >
+                                      <div className="td">
+                                        <li className="td-li">{i+1}</li>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                      <div className="td-name">
+                                        <li className="td-li">{item.booking.partnerName}</li>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                      <div className="td-phone">
+                                        <li className="td-li" >{item.booking.partnerPhoneNumber.replace(item.booking.partnerPhoneNumber.slice(3,9,10),"ₓₓₓₓₓ")}</li>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                    <div className="td-dv">
+                                        <li className="td-li"style={{color:`${status!==null && status.color}`}}>
+                                          {status!==null?status.returnStatus:item.status}</li>
+                                      </div> 
+                                    </TableCell>
+                                    <TableCell>
+                                      <div className="td-tech">
+                                        <li className="td-li" >{item.treatmentServices.map((item,i)=>{
+                                          return  <div style={{backgroundColor:`${status!==null && status.color}`}} key={i}><label className="divDV">{" Liệu trình "+(i+1)+" :"  }</label> { item.assignedTreatmentDoctorCode}</div>
+                                        })}</li>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                      <div className="td-time">
+                                      <li className="td-li"><Moment format="hh:mm">{item.booking.updated}</Moment> - <Moment format="DD/MM/YYYY">{item.booking.updated}</Moment></li>
+                                      </div>
+                                    </TableCell>
+                                  </TableRow>
+                                })}
+                            </TableBody>
+                          </Table>
+                          </TableContainer>
                         </div>
                       </div>
                     </div>

@@ -7,9 +7,10 @@ div#page {
 }
 body {
     background: #f9f9f9 !important;
+    font-family: 'Open Sans',sans-serif !important;
 }
 .header-page {
-    background: linear-gradient(to right,#62028a,#E5244A);
+    background: linear-gradient(to right,#4b09b5,#E5244A);
 }
 .img-logo {
     width: 80%;
@@ -49,25 +50,19 @@ body {
     margin-top: 24px;
 }
 tr:nth-child(even) {
-    background-color: #ebebee;
+    background-color: #f6dcf9;
 }
 table {
     font-family: arial, sans-serif;
-    width: 99%;
+    width: 100%;
     margin: auto;
-}
-thead {
-    background: #FFF;
-    box-shadow: rgb(0 0 0 / 10%) 0px 1.1px 2px 0px;
 }
 th {
     padding: 6px;
     border: 1px solid #fff;
-    padding-left: 21px;
 }
 td {
     padding: 10px;
-    border: 0.1px solid #ebe9e9;
 }
 .main {
     height: auto;
@@ -109,28 +104,11 @@ td {
 }
 li.td-li {
     list-style: none;
-    padding-left: 10px;
 }
 .td-dv {
-    font-size: 16px;
-    padding-left: 8px;
     line-height: 2.2;
-    margin: auto;
-}
-.td-phone {
-    color: #433c3c;
-    width: 65%;
-    font-size: 16px;
-}
-.td-name {
-    color: #433c3c;
-    width: 80%;
-    font-size: 16px;
-}
-.td-time {
-    color: #433c3c;
-    font-size: 16px;
-    text-align: right;
+    font-size: 17px;
+    font-family: 'Open Sans',sans-serif;
 }
 .td-tech {
     color: #433c3c;
@@ -139,15 +117,6 @@ li.td-li {
 .Marquee{
     overflow: hidden;
     text-align: center;
-}
-.lt {
-    border-radius: 4px;
-    text-align: center;
-    font-size: 24px;
-    font-weight: 700;
-    color: #3900b7;
-    padding-top: 10px;
-    font-family: system-ui;
 }
 label.divDV {
     font-size: 13px;
@@ -166,7 +135,7 @@ label.divDV {
     left: 0;
     bottom: 0;
     width: 100%;
-    background: linear-gradient(to right,#01113e,#d2b4ce);
+    background: linear-gradient(to right,#4b09b5,#E5244A);
     color: white;
 }
 .text-id img{
@@ -209,4 +178,39 @@ label.divDV {
 .tbody {
     overflow: auto;
     height: 500px;
+}
+.td-name {
+    color: #550bad;
+    font-size: 17px;
+    font-family: 'Open Sans',sans-serif;
+    font-weight: 500;
+}
+.td-phone {
+    color: #433c3c;
+    font-size: 17px;
+    font-family: 'Open Sans',sans-serif;
+}
+.td-time {
+    color: #433c3c;
+    font-size: 17px;
+    font-family: 'Open Sans',sans-serif;
+}
+.td-dv {
+    line-height: 2.2;
+    font-size: 17px;
+    font-family: 'Open Sans',sans-serif;
+}
+.MuiTableCell-alignLeft {
+    text-align: left;
+    font-size: 17px;
+    font-family: 'Open Sans',sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.MuiPaper-root.MuiTableContainer-root.MuiPaper-elevation1.MuiPaper-rounded {
+    height: 500px;
+    overflow: auto;
+}
+th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignLeft {
+    font-weight: 700;
 }

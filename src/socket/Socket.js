@@ -1,7 +1,6 @@
 import io from 'socket.io-client'
-import { tokenGeneral } from '../component/Token';
 
-const token = tokenGeneral
+const token = JSON.parse(localStorage.getItem(`tokenGeneral`))
 const host = 'https://stagingapi.trangbeautycenter.com/mng-app'
 const socket = io(host, {
       query: {

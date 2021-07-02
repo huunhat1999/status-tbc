@@ -6,10 +6,16 @@ import axios from 'axios';
 import Moment from 'react-moment';
 import {functionColorStatus} from '../../ListReceptionist'
 import _ from "lodash"
-import {tokenGeneral} from '../Token'
 import {socket} from '../../socket/Socket'
 import { apiReceptionist } from '../../api/Api';
-console.log("FC",functionColorStatus);
+import autoscroll from 'autoscroll-react'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 const findStatus = (data, val) => {
   var tmp = _.filter(data, {listStatus: val})
@@ -25,8 +31,10 @@ const findStatus = (data, val) => {
 
 
 class Receptionist extends Component {
+  chatContainer = React.createRef();
   constructor(props) {
     super(props);
+    document.title="LỄ TÂN";
     this.state={
       bookingWaiting :[
     ],
@@ -38,6 +46,19 @@ class Receptionist extends Component {
 //   console.log("scroll",croll);
 // };
 
+componentDidUpdate(prevProps, prevState) {
+          
+  if (this.state.isLoading===false && prevState.isLoading === false) 
+  {
+     this.scrollToMyRef(); 
+  }
+}
+scrollToMyRef = () => {
+  const scroll =
+    this.chatContainer.current.scrollHeight -
+    this.chatContainer.current.clientHeight;
+  this.chatContainer.current.scrollTo(0, scroll);
+};
   componentDidMount(){
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
@@ -111,71 +132,58 @@ class Receptionist extends Component {
               </div>
               <div id="content">
                 <div className="main">
-                  <div className="lt">LỄ TÂN</div>
                   <div className="container">
                     <div className="main-page">
                         <div className="row">
                           <div className="col-md-12">
                             <div className="main-right">
-                            <div className="thead">
-                              <table>
-                                <thead>
-                                  <tr>
-                                    <th className="stt2">#</th>
-                                    <th className="name2">Khách hàng</th>
-                                    <th className="phone">Điện thoại</th>
-                                    <th className="service">Trạng thái</th>
-                                    <th className="time">Thời gian</th>
-                                  </tr>
-                                </thead>
-                                </table>
-                                </div>
-                                <div className="tbody">
-                                <table className="tbody">
-                                <tbody>
+                            <TableContainer component={Paper}>
+                              <Table  aria-label="simple table" style={{minWidth:650}}>
+                                <TableHead>
+                                  <TableRow>
+                                    <TableCell >#</TableCell>
+                                    <TableCell align="left">Khách hàng</TableCell>
+                                    <TableCell align="left">Điện thoại</TableCell>
+                                    <TableCell align="left">Trạng thái</TableCell>
+                                    <TableCell align="left">Thời gian</TableCell>
+                                  </TableRow>
+                                </TableHead>
+                                <TableBody>
                                 {this.state.bookingWaiting.map((item,i)=>{
                                   var status = findStatus(functionColorStatus, item.status)
-                              
-                                    return item.status !=="WAIT" && <tr key={i}>
-                                    <td>
+                                    return item.status !=="WAIT" && item.status !=="WAS_CHECK_IN" && <TableRow key={i}>
+                                    <TableCell>
                                       <div className="td">
                                         <li className="td-li">{i+1}</li>
                                       </div>
-                                    </td>
-                                    <td>
+                                    </TableCell>
+                                    <TableCell>
                                       <div className="td-name">
                                         <li className="td-li">{item.partnerName}</li>
                                         {/* <li className="td-li">{"0"+item.partnerPhone.phoneNumber.replace(item.partnerPhone.phoneNumber.slice(6,10),"***")}</li> */}
                                       </div>
-                                    </td>
-                                    <td>
+                                    </TableCell>
+                                    <TableCell>
                                       <div className="td-phone">
                                         <li className="td-li">{item.partnerPhoneNumber.replace(item.partnerPhoneNumber.slice(3,9,10),"ₓₓₓₓₓ")}</li>
                                       </div>
-                                    </td>
-                                    <td>
+                                    </TableCell>
+                                    <TableCell>
                                       <div className="td-dv" >
                                         <li className="td-li" style={{color:`${status!==null && status.color}`}}>
                                        {status!==null?status.returnStatus:item.status}</li>
                                       </div>
-                                    </td>
-                                    <td>
+                                    </TableCell>
+                                    <TableCell>
                                       <div className="td-time">
-                                        <div className="row">
-                                          <div className="col-md-4">
-                                          <label className="td-times" style={{color:'blue'}}><Moment format="hh:mm">{item.checkInAt}</Moment></label>
-                                          </div>
-                                          <div className="col-md-4">
-                                          <label className="td-date" style={{color:'#640e9a'}}><Moment className="date" format="DD/MM/YYYY">{item.checkInAt}</Moment></label>
-                                          </div>
-                                        </div>
+                                      <li className="td-li"><Moment format="hh:mm">{item.updated}</Moment> - <Moment format="DD/MM/YYYY">{item.updated}</Moment></li>
                                       </div>
-                                    </td>
-                                  </tr>
+                                    </TableCell>
+                                  </TableRow>
                                     })} 
-                                </tbody>
-                              </table>
-                              </div>
+                                </TableBody>
+                              </Table>
+                              </TableContainer>
                             </div>
                           </div>
                         </div>
@@ -191,4 +199,4 @@ class Receptionist extends Component {
     }
 }
 
-export default Receptionist;
+export default autoscroll( Receptionist);
