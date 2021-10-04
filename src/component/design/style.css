@@ -50,7 +50,7 @@ body {
     margin-top: 24px;
 }
 tr:nth-child(even) {
-    background-color: #f6dcf9;
+    background-color: #fcf3fd;
 }
 table {
     font-family: arial, sans-serif;
@@ -119,17 +119,14 @@ li.td-li {
     text-align: center;
 }
 label.divDV {
-    font-size: 13px;
-    color: #ff8405;
-    font-weight: ;
+    font-size: 12px;
+    color: #ffffff;
 }
 #header {
     text-align: center;
     color: white;
     font-size: 30px;
 }
-  #content {
-  }
   #footer {
     position: fixed;
     left: 0;
@@ -166,14 +163,30 @@ label.divDV {
 .branch-item {
     margin-top: 16px;
 }
-.td-li div {
+.td-li .bookingLT {
     border-radius: 29px;
     margin-bottom: 2px;
-    padding-left: 17px;
     font-size: 12px;
     color: #FFF;
-    line-height: 1.2;
-    padding-top: 10px;
+    display: inline-block;
+    padding-left: 16px;
+    padding-right: 16px;
+    text-transform: capitalize;
+    text-align: center;
+    padding-top: 8px;
+    margin-left: 2px;
+}
+.td-li .bookingD {
+    border-radius: 29px;
+    margin-bottom: 2px;
+    font-size: 12px;
+    color: #FFF;
+    line-height: 2.7;
+    text-align: center;
+    display: inline-block;
+    padding-left: 16px;
+    padding-right: 16px;
+    text-transform: capitalize;
 }
 .tbody {
     overflow: auto;
@@ -207,10 +220,78 @@ label.divDV {
     font-weight: 700;
     text-transform: uppercase;
 }
-.MuiPaper-root.MuiTableContainer-root.MuiPaper-elevation1.MuiPaper-rounded {
+/* .MuiPaper-root.MuiTableContainer-root.MuiPaper-elevation1.MuiPaper-rounded {
     height: 500px;
     overflow: auto;
-}
+} */
 th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignLeft {
     font-weight: 700;
+}
+::-webkit-scrollbar {
+    width: 5px;
+    height: 2px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgb(0 0 0 / 30%);
+    background-color: #d40690;
+    border: 1px solid #ffffff;
+}
+::-webkit-scrollbar-track {
+    border: 1px solid #f4f4f4;
+    padding: 2px 0;
+    background-color: #EDE7F6;
+}
+.contentArr {
+    max-width: 40%;
+    position: absolute;
+    z-index: 1;
+    left: 435px;
+    top: 88px;
+    text-align: center;
+    padding-top: 4px;
+    border-radius: 4px;
+}
+.contentImage img {
+    max-width: 101%;
+    position: relative;
+    left: -4px;
+}
+.contentLabel label {
+    position: relative;
+    top: -112px;
+    font-size: 29px;
+    font-weight: 600;
+    font-family: Google Sans;
+    color: #720ca7;
+}
+.contentLabel div {
+    position: relative;
+    top: -112px;
+    font-size: 18px;
+    font-weight: 400;
+    font-family: Google Sans;
+    left: 8px;
+    color: #838688;
+}
+.contentImage {
+    box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 8%), 0px 1px 1px 0px rgb(0 0 0 / 11%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+    border-radius: 20px;
+}
+.itemContent {
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: #04040473;
+    z-index: 10;
+}
+div#content {
+    height: calc(100vh - 290px);
+    overflow-y: auto;
+}
+div#page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }

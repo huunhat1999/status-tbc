@@ -36,8 +36,8 @@ const functionColorStatus = [
     },
     {
         listStatus:"CANCEL",
-        returnStatus:"Cancel",
-        'color':"#D4E157"    
+        returnStatus:"Hủy đặt hẹn",
+        'color':"#E53935"    
     },
 
 ]

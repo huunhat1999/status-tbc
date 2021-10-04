@@ -16,6 +16,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Content from './Content';
 
 const findStatus = (data, val) => {
   var tmp = _.filter(data, {listStatus: val})
@@ -38,55 +39,55 @@ class Receptionist extends Component {
     this.state={
       bookingWaiting :[
     ],
+    isLoading:false,
+    openCongratulation:false,
+    openContent:false,
+    partnerArr : [],
   }
 }
-// scrollToBottom = () => {
-//   const scroll = this.chatContainer.current.scrollHeight - this.chatContainer.current.clientHeight;
-//   this.chatContainer.current.scrollTo(0, scroll);
-//   console.log("scroll",croll);
-// };
+
+closeDel = () => this.setState({openCongratulation: false});
+scrollToBottom = () => {
+  const scroll = this.chatContainer.current.scrollHeight - this.chatContainer.current.clientHeight;
+  this.chatContainer.current.scrollTo(0, scroll);
+  console.log("scroll",scroll);
+};
 
 componentDidUpdate(prevProps, prevState) {
           
   if (this.state.isLoading===false && prevState.isLoading === false) 
   {
-     this.scrollToMyRef(); 
+     this.scrollToBottom(); 
   }
 }
-scrollToMyRef = () => {
-  const scroll =
-    this.chatContainer.current.scrollHeight -
-    this.chatContainer.current.clientHeight;
-  this.chatContainer.current.scrollTo(0, scroll);
-};
+onScroll = () => {
+  const scrollTop = this.chatContainer.current.scrollTop
+  if(scrollTop===0)
+  {
+      this.setState({isLoading: true})
+  }
+} 
   componentDidMount(){
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-    const token=JSON.parse(localStorage.getItem(`tokenGeneral`))
+    console.log("from",to);
+    const token=localStorage.getItem(`tokenGeneral`)
     console.log("tokenRes",token);
     axios.defaults.headers.token = token
     axios.post(apiReceptionist,{
+      "condition":{
+            checkInAt: {
+              from: from,
+              to: to
+            },
+          },
               branchCode:{
                 in: ['GZRZqMRR']
             },
-            status: {
-              in: ['1']
-          },
-          partnerId: {
-              equal: "98das6v87a87avd6v78vads68da"
-          },
-            appointmentDateFinal: {
-                object: {
-                  date: {
-                      from: from,
-                      to: to
-                  }
-                }
-            },
             sort: {
-              "created": 1 
+              "created": -1 
           },
-        "limit": 100,
+        "limit": 1000,
         "page": 1
     })
       .then(res => {
@@ -98,20 +99,29 @@ scrollToMyRef = () => {
     });
     socket.on('SSC_BOOKING_UPDATE', (booking)=> {
         console.log("check",booking);
-
         let tempListBookingWaiting = [...this.state.bookingWaiting];
         let indexBooking = tempListBookingWaiting.findIndex(item=> item._id === booking.booking._id);
-        if(indexBooking !==-1){
+        if(booking.booking.status === "WAS_CHECK_OUT"){
+          tempListBookingWaiting.splice(indexBooking,1)
+          this.setState({bookingWaiting:tempListBookingWaiting, openContent:true},()=>{
+            setTimeout(() => {
+              this.setState({openContent:false})
+            }, 5000);
+          }) 
+        }
+        else if(indexBooking !==-1){
           tempListBookingWaiting[indexBooking] = booking.booking;
         }
         this.setState({
-          bookingWaiting: tempListBookingWaiting
+          bookingWaiting: tempListBookingWaiting , partnerArr:booking.booking
         })
         console.log("----SSC_BOOKING_UPDATE----",tempListBookingWaiting)
     });
     socket.on('SSC_QUEUE_CONSULTATION_CREATE',(booking)=> {
       console.log("checkQueue",booking);
-      let tempListBookingWaiting = [...this.state.bookingWaiting,booking.queue.booking];
+      var tmp = booking.queue.booking
+      tmp.queueConsultation=booking.queue
+      let tempListBookingWaiting = [...this.state.bookingWaiting,tmp];
       this.setState({
         bookingWaiting: tempListBookingWaiting
       });
@@ -123,13 +133,13 @@ scrollToMyRef = () => {
 
   }
     render() {
-
-       console.log("color",functionColorStatus);
+       console.log("color",this.state.partnerArr);
         return (
             <div id="page">
               <div id="header">
-                <Header></Header>
+              <Header></Header>
               </div>
+              {this.state.openContent === true ? <Content partnerName = {this.state.partnerArr.partnerName}/> : ""}
               <div id="content">
                 <div className="main">
                   <div className="container">
@@ -137,8 +147,8 @@ scrollToMyRef = () => {
                         <div className="row">
                           <div className="col-md-12">
                             <div className="main-right">
-                            <TableContainer component={Paper}>
-                              <Table  aria-label="simple table" style={{minWidth:650}}>
+                            <TableContainer component={Paper} ref={this.chatContainer} onScroll={this.onScroll}>
+                              <Table  aria-label="simple table" style={{minWidth:650}} >
                                 <TableHead>
                                   <TableRow>
                                     <TableCell >#</TableCell>
@@ -151,10 +161,10 @@ scrollToMyRef = () => {
                                 <TableBody>
                                 {this.state.bookingWaiting.map((item,i)=>{
                                   var status = findStatus(functionColorStatus, item.status)
-                                    return item.status !=="WAIT" && item.status !=="WAS_CHECK_IN" && <TableRow key={i}>
+                                    return item.status !=="WAIT" && item.status !=="WAS_CHECK_IN" && item.status!=="WAS_CHECK_OUT" && <TableRow key={i}>
                                     <TableCell>
                                       <div className="td">
-                                        <li className="td-li">{i+1}</li>
+                                        <li className="td-li">{_.get(item,'queueConsultation.indexNumber','')}</li>
                                       </div>
                                     </TableCell>
                                     <TableCell>

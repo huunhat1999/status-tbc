@@ -28,19 +28,43 @@ const findStatus = (data, val) => {
   }
 }
 class Technicians extends Component {
+  chatContainer = React.createRef();
   constructor(props) {
-    
     super(props);
     document.title="BÁC SĨ";
     this.state={
       bookingWaiting :[
     ],
+    isLoading:false,
+    bookingTreatment:[],
   }
   }
+
+  scrollToBottom = () => {
+    const scroll = this.chatContainer.current.scrollHeight - this.chatContainer.current.clientHeight;
+    this.chatContainer.current.scrollTo(0, scroll);
+    console.log("scroll",scroll);
+  };
+  
+  componentDidUpdate(prevProps, prevState) {
+            
+    if (this.state.isLoading===false && prevState.isLoading === false) 
+    {
+       this.scrollToBottom(); 
+    }
+  }
+  onScroll = () => {
+    const scrollTop = this.chatContainer.current.scrollTop
+    if(scrollTop===0)
+    {
+        this.setState({isLoading: true})
+    }
+  } 
+
   componentWillMount(){
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-    const token=JSON.parse(localStorage.getItem(`tokenGeneral`))
+    const token=localStorage.getItem(`tokenGeneral`)
     console.log("tokenRes",token);
     axios.defaults.headers.token = token
     axios.get(apiTechnicians,{params:{
@@ -57,8 +81,8 @@ class Technicians extends Component {
       "page": 1
   }})
       .then(res => {  
-        this.setState({bookingWaiting:res.data.data})
-        console.log("booking",res.data.data);
+        this.setState({bookingWaiting:res.data.data,bookingTreatment:res.data})
+        console.log("booking",res.data);
     })
     socket.on('connect',function() {
         console.log('connect ok', socket.id)
@@ -100,7 +124,7 @@ class Technicians extends Component {
                     <div className="row">
                       <div className="col-md-12">
                         <div className="main-right">
-                        <TableContainer component={Paper}>
+                        <TableContainer component={Paper} ref={this.chatContainer} onScroll={this.onScroll}>
                             <Table aria-label="simple table" style={{minWidth:650}}>
                               <TableHead>
                                 <TableRow>
@@ -118,7 +142,7 @@ class Technicians extends Component {
                                   return (item.status==="WAIT" ||  item.status==="IS_CALLING" ||  item.status==="IN_PROGRESS" || item.status==="COMPLETE") && <TableRow  key={i}>
                                     <TableCell >
                                       <div className="td">
-                                        <li className="td-li">{i+1}</li>
+                                        <li className="td-li">{item.indexNumber}</li>
                                       </div>
                                     </TableCell>
                                     <TableCell>
@@ -139,8 +163,11 @@ class Technicians extends Component {
                                     </TableCell>
                                     <TableCell>
                                       <div className="td-tech">
-                                        <li className="td-li" >{item.treatmentServices.map((item,i)=>{
-                                          return  <div style={{backgroundColor:`${status!==null && status.color}`}} key={i}><label className="divDV">{" Liệu trình "+(i+1)+" :"  }</label> { item.assignedTreatmentDoctorCode}</div>
+                                        <li className="td-li" >{ item.treatmentServices.length > 1 ? item.treatmentServices.map((item,i)=>{
+                                          return  <div className="bookingLT" style={{backgroundColor:`${status!==null && status.color}`}} key={i}><label className="divDV">{" Dịch vụ "+(i+1)+" :"  }</label> {_.get(item,'assignedTreatmentDoctor.name','')}</div>
+                                        })
+                                        : item.treatmentServices.map((item,i)=>{
+                                          return  <div className="bookingD" style={{backgroundColor:`${status!==null && status.color}`}} key={i}>{_.get(item,'assignedTreatmentDoctor.name','')}</div>
                                         })}</li>
                                       </div>
                                     </TableCell>

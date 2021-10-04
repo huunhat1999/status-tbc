@@ -29,6 +29,7 @@ const findStatus = (data, val) => {
 }
 
 class Counselors extends Component {
+  chatContainer = React.createRef();
   constructor(props) {
     super(props);
     document.title="TƯ VẤN";
@@ -36,18 +37,36 @@ class Counselors extends Component {
       bookingWaiting :[
     ],
     showPopup:false,
+    isLoading:false,
   }
   }
-  handleShowPopup=()=>{this.setState({showPopup:true})}
-  handleClosePopup=()=>{this.setState({showPopup:false})}
-  modal=()=>{
-    
-  console.log("JJJJJJJJ");
+  // handleShowPopup=()=>{this.setState({showPopup:true})}
+  // handleClosePopup=()=>{this.setState({showPopup:false})}
+
+  scrollToBottom = () => {
+    const scroll = this.chatContainer.current.scrollHeight - this.chatContainer.current.clientHeight;
+    this.chatContainer.current.scrollTo(0, scroll);
+    console.log("scroll",scroll);
+  };
+  componentDidUpdate(prevProps, prevState) {
+          
+    if (this.state.isLoading===false && prevState.isLoading === false) 
+    {
+       this.scrollToBottom(); 
+    }
   }
+  onScroll = () => {
+    const scrollTop = this.chatContainer.current.scrollTop
+    if(scrollTop===0)
+    {
+        this.setState({isLoading: true})
+    }
+  } 
+
   componentDidMount(){
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-    const token=JSON.parse(localStorage.getItem(`tokenGeneral`))
+    const token=localStorage.getItem(`tokenGeneral`)
     console.log("tokenRes",token);
     axios.defaults.headers.token = token
     axios.post(apiCounselors,{
@@ -114,8 +133,8 @@ class Counselors extends Component {
                       <div className="row">
                         <div className="col-md-12">
                           <div className="main-right">
-                          <TableContainer component={Paper}>
-                            <Table Table aria-label="simple table" style={{minWidth:650}}>
+                          <TableContainer component={Paper} ref={this.chatContainer} onScroll={this.onScroll}>
+                            <Table aria-label="simple table" style={{minWidth:650}}>
                               <TableHead>
                                 <TableRow>
                                   <TableCell>#</TableCell>
@@ -131,7 +150,7 @@ class Counselors extends Component {
                                 return (item.status==="WAIT" ||  item.status==="IS_CALLING" || item.status==="IN_PROGRESS" || item.status==="COMPLETE") && <TableRow key={i}>
                                   <TableCell>
                                     <div className="td">
-                                      <li className="td-li">{i+1}</li>
+                                      <li className="td-li">{item.indexNumber}</li>
                                     </div>
                                   </TableCell>
                                   <TableCell>
@@ -158,7 +177,7 @@ class Counselors extends Component {
                                 </TableRow>
                                 })}
                               </TableBody>
-                              <Modal  centered={true} size="xl" show={this.state.showPopup} onHide={()=>this.handleClosePopup()}>
+                              {/* <Modal  centered={true} size="xl" show={this.state.showPopup} onHide={()=>this.handleClosePopup()}>
                                 <Modal.Header closeButton>
                                 </Modal.Header>
                                 <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
@@ -170,7 +189,7 @@ class Counselors extends Component {
                                     Save Changes
                                   </Button>
                                 </Modal.Footer>
-                              </Modal>
+                              </Modal> */}
                             </Table>
                             </TableContainer>
                           </div>
