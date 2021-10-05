@@ -16,7 +16,7 @@ const functionCounselors =[
     },
     {
         listStatus:"COMPLETE",
-        returnStatus:"Hoàn thành",
+        returnStatus:"Hoàn thành tư vấn",
         'color':"#FFC107"    
     },
 ]

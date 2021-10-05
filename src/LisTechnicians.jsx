@@ -6,7 +6,7 @@ const functionTech = [
     },
     {
         listStatus:"IS_CALLING",
-        returnStatus:"Đang gọi",
+        returnStatus:"Đang gọi điều trị",
         'color':"#7a0cce"  
     },
     {
