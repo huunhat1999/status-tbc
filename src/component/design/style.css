@@ -128,12 +128,14 @@ label.divDV {
     font-size: 30px;
 }
   #footer {
-    position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
     background: linear-gradient(to right,#4b09b5,#E5244A);
     color: white;
+}
+.MuiPaper-elevation1 {
+    box-shadow: 0px 0px 0px 0px rgb(0 0 0 / 0%) !important;
 }
 .text-id img{
     width: 14%;
@@ -294,4 +296,5 @@ div#page {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100vh;
 }
