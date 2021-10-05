@@ -105,8 +105,8 @@ onScroll = () => {
           tempListBookingWaiting.splice(indexBooking,1)
           this.setState({bookingWaiting:tempListBookingWaiting, openContent:true},()=>{
             setTimeout(() => {
-              this.setState({openContent:false})
-            }, 5000);
+              this.setState({openContent:true})
+            });
           }) 
         }
         else if(indexBooking !==-1){
