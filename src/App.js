@@ -29,32 +29,28 @@ class App extends Component {
       }
       else {
         // login()
-        
-        axios.post(`https://stagingapi.trangbeautycenter.com/api/users/login`,{
-        "userName":"nhatth",
-        "password": "123456",
-        "appName": "MNG_APP"
+        axios.post(`https://api.trangbeautycenter.com/api/users/login`,{
+          "userName":"devacc",
+          "password": "dev@123",
+          "appName": "MNG_APP"
         })
         .then(res=>{
-        console.log("l56151",res.data.token);
-        localStorage.setItem('tokenGeneral',res.data.token)
-        console.log('json',res.data.token);  
-        
-        this.setState({token: res.data.token})
+          console.log('token', res.data)
+          localStorage.setItem('tokenGeneral',res.data.token)        
+          this.setState({token: res.data.token})
         })
       }
     }
     else {
       // login()
-      axios.post(`https://stagingapi.trangbeautycenter.com/api/users/login`,{
-      "userName":"nhatth",
-      "password": "123456",
-      "appName": "MNG_APP"
+      axios.post(`https://api.trangbeautycenter.com/api/users/login`,{
+        "userName":"devacc",
+        "password": "dev@123",
+        "appName": "MNG_APP"
       })
       .then(res=>{
-      console.log("l56151",res.data.token);
+        console.log('token2', res.data)
       localStorage.setItem('tokenGeneral',res.data.token)
-      console.log('json',res.data.token);  
       this.setState({token: res.data.token})
       })
     }
@@ -72,7 +68,7 @@ class App extends Component {
     const {token} = this.state;
     return token ? (
       this.getDisplay()
-    ) : <div>test</div>;
+    ) : <div></div>;
   }
 }
 

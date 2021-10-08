@@ -1,20 +1,19 @@
-import React, { Component } from 'react';
-import Footer from './general/Footer';
-import Header from './general/Header';
-import axios from 'axios';
-import Moment from 'react-moment';
-import {functionCounselors} from '../../ListCounselors'
-import _ from "lodash"
-import { Modal,Button } from 'react-bootstrap';
-import { apiCounselors } from '../../api/Api';
-import {socket} from '../../socket/Socket'
+import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import axios from 'axios';
+import _ from "lodash";
+import React, { Component } from 'react';
+import Moment from 'react-moment';
+import { apiCounselors } from '../../api/Api';
+import { functionCounselors } from '../../ListCounselors';
+import { socket } from '../../socket/Socket';
+import Footer from './general/Footer';
+import Header from './general/Header';
 
 const findStatus = (data, val) => {
   var tmp = _.filter(data, {listStatus: val})

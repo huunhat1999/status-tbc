@@ -16,15 +16,15 @@ class Header extends Component {
                     </div>
                     <div className="col-md-7">
                       <div className="marquee">
-                        <Marquee direction="left">
-                          <label > <b>Trang Beauty Center </b> chân thành cảm ơn quý đã tin tưởng & sử dụng dịch vụ của chúng tôi - Hotline <b>089.61.62668</b></label>
-                        </Marquee>
+                        {/* <Marquee direction="left"> */}
+                          {/* <label > <b>Trang Beauty Center </b> chân thành cảm ơn quý đã đặt niềm tin vào  chúng tôi - Hotline: <b>037.44.66666</b></label> */}
+                        {/* </Marquee> */}
                       </div>
                     </div>
                     <div className="col-md-3">
                       <div className="time-header">
                         <Clock format={'LTS' } ticking={true}></Clock>
-                        <Clock format={' | dddd' } ticking={true}></Clock>
+                        {/* <Clock format={' | dddd' } ticking={true}></Clock> */}
                         <Clock format={', DD-MM-YYYY'} ticking={true}></Clock>
                       </div>
                     </div>
