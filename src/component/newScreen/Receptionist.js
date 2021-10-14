@@ -5,7 +5,7 @@ import Header from './general/Header';
 import axios from 'axios';
 import Moment from 'react-moment';
 import {functionColorStatus} from '../../ListReceptionist'
-import _ from "lodash"
+import _, { isEmpty } from "lodash"
 import {socket} from '../../socket/Socket'
 import { apiReceptionist } from '../../api/Api';
 import autoscroll from 'autoscroll-react'
@@ -17,6 +17,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Content from './Content';
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 const findStatus = (data, val) => {
   var tmp = _.filter(data, {listStatus: val})
@@ -47,30 +48,37 @@ class Receptionist extends Component {
 }
 
 closeDel = () => this.setState({openCongratulation: false});
+
 scrollToBottom = () => {
-  const scroll = this.chatContainer.current.scrollHeight - this.chatContainer.current.clientHeight;
-  this.chatContainer.current.scrollTo(0, scroll);
-  console.log("scroll",scroll);
+  if(!isEmpty(this.chatContainer.current))
+  {
+      const scroll = this.chatContainer.current?.scrollHeight - this.chatContainer.current.clientHeight;
+     
+      this.chatContainer.current.scrollTo(0,scroll);
+      console.log("scroll",scroll);
+  }
+  
 };
 
 componentDidUpdate(prevProps, prevState) {
-          
-  if (this.state.isLoading===false && prevState.isLoading === false) 
-  {
-     this.scrollToBottom(); 
-  }
+    if (this.props.isSend===false) 
+      {
+      this.scrollToBottom(); 
+      }
+  console.log('componentDidUpdate scroll')
+  this.scrollToBottom(); 
 }
+
 onScroll = () => {
+  const scrollY = window.scrollY //Don't get confused by what's scrolling - It's not the window
   const scrollTop = this.chatContainer.current.scrollTop
   if(scrollTop===0)
   {
-      this.setState({isLoading: true})
   }
 } 
   componentDidMount(){
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-    console.log("from",to);
     const token=localStorage.getItem(`tokenGeneral`)
     console.log("tokenRes",token);
     axios.defaults.headers.token = token
@@ -84,13 +92,13 @@ onScroll = () => {
               branchCode:{
                 in: ['GZRZqMRR']
             },
-            sort: {
-              "created": -1 
+            "sort": {
+              "checkInAt":1
           },
         "limit": 1000,
         "page": 1
     })
-      .then(res => {
+    .then(res => {
         this.setState({bookingWaiting:res.data.data})
         console.log("bookingFilter",res.data.data);
     })
@@ -105,9 +113,10 @@ onScroll = () => {
           tempListBookingWaiting.splice(indexBooking,1)
           this.setState({bookingWaiting:tempListBookingWaiting, openContent:true},()=>{
             setTimeout(() => {
-              this.setState({openContent:true})
-            });
+              this.setState({openContent:false})
+            },5000);
           }) 
+          this.scrollToBottom()
         }
         else if(indexBooking !==-1){
           tempListBookingWaiting[indexBooking] = booking.booking;
@@ -115,6 +124,7 @@ onScroll = () => {
         this.setState({
           bookingWaiting: tempListBookingWaiting , partnerArr:booking.booking
         })
+        this.scrollToBottom()
         console.log("----SSC_BOOKING_UPDATE----",tempListBookingWaiting)
     });
     socket.on('SSC_QUEUE_CONSULTATION_CREATE',(booking)=> {
@@ -125,6 +135,7 @@ onScroll = () => {
       this.setState({
         bookingWaiting: tempListBookingWaiting
       });
+      this.scrollToBottom()
       console.log("----SSC_QUEUE_CONSULTATION_CREATE----",tempListBookingWaiting);
     })
     socket.on('disconnect', function(){
@@ -140,15 +151,15 @@ onScroll = () => {
               <Header></Header>
               </div>
               {this.state.openContent === true ? <Content partnerName = {this.state.partnerArr.partnerName}/> : ""}
-              <div id="content">
+              <div id="content" ref={this.chatContainer} onScroll={this.onScroll}>
                 <div className="main">
                   <div className="container">
                     <div className="main-page">
                         <div className="row">
                           <div className="col-md-12">
                             <div className="main-right">
-                            <TableContainer component={Paper} ref={this.chatContainer} onScroll={this.onScroll}>
-                              <Table  aria-label="simple table" style={{minWidth:650}} >
+                            <TableContainer component={Paper} >
+                              <Table  aria-label="simple table" style={{minWidth:650}}  >
                                 <TableHead>
                                   <TableRow>
                                     <TableCell >#</TableCell>
@@ -158,7 +169,7 @@ onScroll = () => {
                                     <TableCell align="left">Thời gian</TableCell>
                                   </TableRow>
                                 </TableHead>
-                                <TableBody>
+                                <TableBody >
                                 {this.state.bookingWaiting.map((item,i)=>{
                                   var status = findStatus(functionColorStatus, item.status)
                                     return item.status !=="WAIT" && item.status !=="WAS_CHECK_IN" && item.status!=="WAS_CHECK_OUT" && <TableRow key={i}>

@@ -4,7 +4,7 @@ import Header from './general/Header';
 import axios from 'axios';
 import Moment from 'react-moment';
 import {functionTech} from '../../LisTechnicians'
-import _ from "lodash"
+import _, { isEmpty } from "lodash"
 import { apiTechnicians } from '../../api/Api';
 import {socket} from '../../socket/Socket'
 import Table from '@material-ui/core/Table';
@@ -15,6 +15,17 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
  
+const findStatusTreatment = (val) =>{
+  var index = _.findIndex(functionTech,{listStatus:val})
+  if(index>-1)
+  {
+      return functionTech[index].returnStatus
+  }
+  else
+  {
+      return val
+  }
+}
 const findStatus = (data, val) => {
   var tmp = _.filter(data, {listStatus: val})
   console.log(tmp);
@@ -41,26 +52,32 @@ class Technicians extends Component {
   }
 
   scrollToBottom = () => {
-    const scroll = this.chatContainer.current.scrollHeight - this.chatContainer.current.clientHeight;
-    this.chatContainer.current.scrollTo(0, scroll);
-    console.log("scroll",scroll);
+    if(!isEmpty(this.chatContainer.current))
+    {
+        const scroll = this.chatContainer.current?.scrollHeight - this.chatContainer.current.clientHeight;
+       
+        this.chatContainer.current.scrollTo(0,scroll);
+        console.log("scroll",scroll);
+    }
+    
   };
   
   componentDidUpdate(prevProps, prevState) {
-            
-    if (this.state.isLoading===false && prevState.isLoading === false) 
-    {
-       this.scrollToBottom(); 
-    }
+      if (this.props.isSend===false) 
+        {
+        this.scrollToBottom(); 
+        }
+    console.log('componentDidUpdate scroll')
+    this.scrollToBottom(); 
   }
+  
   onScroll = () => {
+    const scrollY = window.scrollY //Don't get confused by what's scrolling - It's not the window
     const scrollTop = this.chatContainer.current.scrollTop
     if(scrollTop===0)
     {
-        this.setState({isLoading: true})
     }
   } 
-
   componentWillMount(){
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
@@ -75,9 +92,9 @@ class Technicians extends Component {
         }
       },
       "sort": {
-          "created": 1
-      },
-      "limit": 10,
+        "indexNumber":1
+    },
+      "limit": 1000,
       "page": 1
   }})
       .then(res => {  
@@ -117,7 +134,10 @@ class Technicians extends Component {
     render() {
         return (
             <div id="page">
-            <Header></Header>
+            <div id="header">
+              <Header></Header>
+              </div>
+              <div id="content" ref={this.chatContainer} onScroll={this.onScroll}>
             <div className="main">
               <div className="container">
                 <div className="main-page">
@@ -164,7 +184,7 @@ class Technicians extends Component {
                                     <TableCell>
                                       <div className="td-tech">
                                         <li className="td-li" >{ item.treatmentServices.length > 1 ? item.treatmentServices.map((item,i)=>{
-                                          return  <div className="bookingLT" style={{backgroundColor:`${status!==null && status.color}`}} key={i}><label className="divDV">{" Dịch vụ "+(i+1)+" :"  }</label> {_.get(item,'assignedTreatmentDoctor.name','')}</div>
+                                          return  <div className="bookingLT" style={{backgroundColor:`${status!==null && status.color}`}} key={i}><label className="divDV">{" Dịch vụ "+(i+1)+" :"  }</label> {_.get(item,'assignedTreatmentDoctor.name','')} | {findStatusTreatment(_.get(item,'status',''))}</div>
                                         })
                                         : item.treatmentServices.map((item,i)=>{
                                           return  <div className="bookingD" style={{backgroundColor:`${status!==null && status.color}`}} key={i}>{_.get(item,'assignedTreatmentDoctor.name','')}</div>
@@ -173,7 +193,7 @@ class Technicians extends Component {
                                     </TableCell>
                                     <TableCell>
                                       <div className="td-time">
-                                      <li className="td-li"><Moment format="hh:mm">{item.booking.updated}</Moment> - <Moment format="DD/MM/YYYY">{item.booking.updated}</Moment></li>
+                                      <li className="td-li"><Moment format="hh:mm">{item.updated}</Moment> - <Moment format="DD/MM/YYYY">{item.booking.updated}</Moment></li>
                                       </div>
                                     </TableCell>
                                   </TableRow>
@@ -187,6 +207,7 @@ class Technicians extends Component {
                 </div>
               </div>
             </div> 
+            </div>
             <div id="footer">
                 <Footer></Footer>
             </div>

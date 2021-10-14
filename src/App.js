@@ -24,16 +24,20 @@ class App extends Component {
     if(token){
       const decode = jwtDecode(token)
       console.log("decode",decode);
-      if(decode.exp > new Date().getTime()/1000){
+      if(decode.exp > new Date().getTime()/10000000){
       this.setState({token: token})
       }
       else {
-        // login()
         axios.post(`https://api.trangbeautycenter.com/api/users/login`,{
           "userName":"devacc",
           "password": "dev@123",
           "appName": "MNG_APP"
         })
+        // axios.post(`https://stagingapi.trangbeautycenter.com/api/users/login`,{
+        //   "userName":"nhatth",
+        //   "password": "123456",
+        //   "appName": "MNG_APP"
+        // })  
         .then(res=>{
           console.log('token', res.data)
           localStorage.setItem('tokenGeneral',res.data.token)        
@@ -42,12 +46,16 @@ class App extends Component {
       }
     }
     else {
-      // login()
       axios.post(`https://api.trangbeautycenter.com/api/users/login`,{
         "userName":"devacc",
         "password": "dev@123",
         "appName": "MNG_APP"
       })
+      // axios.post(`https://stagingapi.trangbeautycenter.com/api/users/login`,{
+      //   "userName":"nhatth",
+      //   "password": "123456",
+      //   "appName": "MNG_APP"
+      // }) 
       .then(res=>{
         console.log('token2', res.data)
       localStorage.setItem('tokenGeneral',res.data.token)
@@ -59,7 +67,7 @@ class App extends Component {
     return <Router>
             <Route path="/" exact component={Receptionist}></Route>
             <Route path="/tu-van/" exact component={Counselors}></Route>
-            <Route path="/ky-thuat-vien/" exact component={Technicians}></Route>
+            <Route path="/dieu-tri/" exact component={Technicians}></Route>
             <Route path="/tham-kham/" exact component={Visit}></Route>
             <Route path="/coffee/" exact component={Coffee}></Route>
           </Router>

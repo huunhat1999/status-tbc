@@ -6,7 +6,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import axios from 'axios';
-import _ from "lodash";
+import _, { isEmpty } from "lodash"
 import React, { Component } from 'react';
 import Moment from 'react-moment';
 import { apiCounselors } from '../../api/Api';
@@ -43,25 +43,32 @@ class Counselors extends Component {
   // handleClosePopup=()=>{this.setState({showPopup:false})}
 
   scrollToBottom = () => {
-    const scroll = this.chatContainer.current.scrollHeight - this.chatContainer.current.clientHeight;
-    this.chatContainer.current.scrollTo(0, scroll);
-    console.log("scroll",scroll);
-  };
-  componentDidUpdate(prevProps, prevState) {
-          
-    if (this.state.isLoading===false && prevState.isLoading === false) 
+    if(!isEmpty(this.chatContainer.current))
     {
-       this.scrollToBottom(); 
+        const scroll = this.chatContainer.current?.scrollHeight - this.chatContainer.current.clientHeight;
+       
+        this.chatContainer.current.scrollTo(0,scroll);
+        console.log("scroll",scroll);
     }
+    
+  };
+  
+  componentDidUpdate(prevProps, prevState) {
+      if (this.props.isSend===false) 
+        {
+        this.scrollToBottom(); 
+        }
+    console.log('componentDidUpdate scroll')
+    this.scrollToBottom(); 
   }
+  
   onScroll = () => {
+    const scrollY = window.scrollY //Don't get confused by what's scrolling - It's not the window
     const scrollTop = this.chatContainer.current.scrollTop
     if(scrollTop===0)
     {
-        this.setState({isLoading: true})
     }
   } 
-
   componentDidMount(){
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
@@ -76,15 +83,13 @@ class Counselors extends Component {
             }
           },
           "sort": {
-              "created": 1
-          },
+            "checkInAt":1
+        },
           "limit": 100,
           "page": 1
       })
       .then(res => {
-        console.log(res);
         this.setState({bookingWaiting: res.data.data})
-        console.log("bookingTuVan", res.data.data);
     })
     socket.on('connect',function() {
         console.log('connect ok', socket.id)
@@ -98,12 +103,10 @@ class Counselors extends Component {
       if(booking.queue.status==="WAIT"){
         tempListBookingWaiting.splice(upDateBooking,1)
         this.setState({bookingWaiting:tempListBookingWaiting})
-        console.log("Delete",tempListBookingWaiting);
       }
       else if(upDateBooking!==-1){
         tempListBookingWaiting[upDateBooking]=booking.queue
       }
-      console.log("updateIndex",booking.queue.status);
       this.setState({
         bookingWaiting: tempListBookingWaiting
       });
@@ -125,14 +128,17 @@ class Counselors extends Component {
     render() {
         return (
             <div id="page">
+              <div id="header">
               <Header></Header>
+              </div>
+              <div id="content" ref={this.chatContainer} onScroll={this.onScroll}>
               <div className="main">
                 <div className="container">
                   <div className="main-page">
                       <div className="row">
                         <div className="col-md-12">
                           <div className="main-right">
-                          <TableContainer component={Paper} ref={this.chatContainer} onScroll={this.onScroll}>
+                          <TableContainer component={Paper} >
                             <Table aria-label="simple table" style={{minWidth:650}}>
                               <TableHead>
                                 <TableRow>
@@ -196,6 +202,7 @@ class Counselors extends Component {
                       </div>
                   </div>
                 </div>
+              </div>
               </div> 
               <div id="footer">
                 <Footer></Footer>
