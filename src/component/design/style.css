@@ -52,18 +52,18 @@ body {
 tr:nth-child(even) {
     background-color: #fcf3fd;
 }
-table {
+/* table {
     font-family: arial, sans-serif;
     width: 100%;
     margin: auto;
-}
-th {
+} */
+/* th {
     padding: 6px;
     border: 1px solid #fff;
 }
 td {
     padding: 10px;
-}
+} */
 .main {
     height: auto;
 }
@@ -175,8 +175,8 @@ label.divDV {
     padding-right: 16px;
     text-transform: capitalize;
     text-align: center;
-    padding-top: 8px;
     margin-left: 2px;
+    line-height: 26px;
 }
 .td-li .bookingD {
     border-radius: 29px;

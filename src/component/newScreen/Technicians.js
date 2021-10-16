@@ -144,8 +144,8 @@ class Technicians extends Component {
                     <div className="row">
                       <div className="col-md-12">
                         <div className="main-right">
-                        <TableContainer component={Paper} ref={this.chatContainer} onScroll={this.onScroll}>
-                            <Table aria-label="simple table" style={{minWidth:650}}>
+                        <TableContainer component={Paper} ref={this.chatContainer} onScroll={this.onScroll} className="tableContainer">
+                            <Table aria-label="simple table" style={{minWidth:650}} >
                               <TableHead>
                                 <TableRow>
                                   <TableCell >#</TableCell>
@@ -175,7 +175,7 @@ class Technicians extends Component {
                                         <li className="td-li" >{item.booking.partnerPhoneNumber.replace(item.booking.partnerPhoneNumber.slice(3,9,10),"ₓₓₓₓₓ")}</li>
                                       </div>
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell style={{width:190}}>
                                     <div className="td-dv">
                                         <li className="td-li"style={{color:`${status!==null && status.color}`}}>
                                           {status!==null?status.returnStatus:item.status}</li>
@@ -184,10 +184,10 @@ class Technicians extends Component {
                                     <TableCell>
                                       <div className="td-tech">
                                         <li className="td-li" >{ item.treatmentServices.length > 1 ? item.treatmentServices.map((item,i)=>{
-                                          return  <div className="bookingLT" style={{backgroundColor:`${status!==null && status.color}`}} key={i}><label className="divDV">{" Dịch vụ "+(i+1)+" :"  }</label> {_.get(item,'assignedTreatmentDoctor.name','')} | {findStatusTreatment(_.get(item,'status',''))}</div>
+                                          return  <div className="bookingLT" style={{backgroundColor: 'rgb(48, 63, 159'}} key={i}>{_.get(item,'assignedTreatmentDoctor.name','')}</div>
                                         })
                                         : item.treatmentServices.map((item,i)=>{
-                                          return  <div className="bookingD" style={{backgroundColor:`${status!==null && status.color}`}} key={i}>{_.get(item,'assignedTreatmentDoctor.name','')}</div>
+                                          return  <div className="bookingLT" style={{backgroundColor: 'rgb(48, 63, 159'}} key={i}>{_.get(item,'assignedTreatmentDoctor.name','')}</div>
                                         })}</li>
                                       </div>
                                     </TableCell>

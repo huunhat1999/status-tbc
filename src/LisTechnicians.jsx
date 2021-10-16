@@ -2,7 +2,7 @@ const functionTech = [
     {
         listStatus:"WAIT",
         returnStatus:"Chờ điều trị",
-        'color':"#303F9F"  
+        'color':"rgb(255 82 0 / 97%)"  
     },
     {
         listStatus:"IS_CALLING",
@@ -17,7 +17,7 @@ const functionTech = [
     {
         listStatus:"COMPLETE",
         returnStatus:"Hoàn thành điều trị",
-        'color':"#074237"  
+        'color':"rgb(48 203 131)"  
     },
 ];
 const functionDoctor = [

@@ -83,7 +83,7 @@ class Counselors extends Component {
             }
           },
           "sort": {
-            "checkInAt":1
+            "created": 1
         },
           "limit": 100,
           "page": 1
