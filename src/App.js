@@ -14,55 +14,53 @@ class App extends Component {
     super(props);
     document.title="LỄ TÂN";
     this.state={
-      token: null
+      // token: null
   }
 }
   
-  componentDidMount=()=>{
-    const token = localStorage.getItem('tokenGeneral')
+  // componentDidMount=()=>{
+  //   const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
 
-    if(token){
-      const decode = jwtDecode(token)
-      console.log("decode",decode);
-      if(decode.exp > new Date().getTime()/10000000){
-      this.setState({token: token})
-      }
-      else {
-        axios.post(`https://api.trangbeautycenter.com/api/users/login`,{
-          "userName":"devacc",
-          "password": "dev@123",
-          "appName": "MNG_APP"
-        })
-        // axios.post(`https://stagingapi.trangbeautycenter.com/api/users/login`,{
-        //   "userName":"nhatth",
-        //   "password": "123456",
-        //   "appName": "MNG_APP"
-        // })  
-        .then(res=>{
-          console.log('token', res.data)
-          localStorage.setItem('tokenGeneral',res.data.token)        
-          this.setState({token: res.data.token})
-        })
-      }
-    }
-    else {
-      axios.post(`https://api.trangbeautycenter.com/api/users/login`,{
-        "userName":"devacc",
-        "password": "dev@123",
-        "appName": "MNG_APP"
-      })
-      // axios.post(`https://stagingapi.trangbeautycenter.com/api/users/login`,{
-      //   "userName":"nhatth",
-      //   "password": "123456",
-      //   "appName": "MNG_APP"
-      // }) 
-      .then(res=>{
-        console.log('token2', res.data)
-      localStorage.setItem('tokenGeneral',res.data.token)
-      this.setState({token: res.data.token})
-      })
-    }
-  };
+  //   if(token){
+  //     const decode = jwtDecode(token)
+  //     console.log("decode",decode);
+  //     if(decode.exp > new Date().getTime()/10000000){
+  //     this.setState({token: token})
+  //     }
+  //     else {
+  //       axios.post(`https://api.trangbeautycenter.com/api/users/login`,{
+  //         "userName":"devacc",
+  //         "password": "dev@123",
+  //         "appName": "MNG_APP"
+  //       })
+  //       // axios.post(`https://stagingapi.trangbeautycenter.com/api/users/login`,{
+  //       //   "userName":"nhatth",
+  //       //   "password": "123456",
+  //       //   "appName": "MNG_APP"
+  //       // })  
+  //       .then(res=>{
+  //         console.log('token', res.data)     
+  //         this.setState({token: res.data.token})
+  //       })
+  //     }
+  //   }
+  //   else {
+  //     axios.post(`https://api.trangbeautycenter.com/api/users/login`,{
+  //       "userName":"devacc",
+  //       "password": "dev@123",
+  //       "appName": "MNG_APP"
+  //     })
+  //     // axios.post(`https://stagingapi.trangbeautycenter.com/api/users/login`,{
+  //     //   "userName":"nhatth",
+  //     //   "password": "123456",
+  //     //   "appName": "MNG_APP"
+  //     // }) 
+  //     .then(res=>{
+  //       console.log('token2', res.data)
+  //     this.setState({token: res.data.token})
+  //     })
+  //   }
+  // };
   getDisplay=()=>{
     return <Router>
             <Route path="/" exact component={Receptionist}></Route>
@@ -73,10 +71,10 @@ class App extends Component {
           </Router>
   }
   render() {
-    const {token} = this.state;
-    return token ? (
+    // const {token} = this.state;
+    return  (
       this.getDisplay()
-    ) : <div></div>;
+    )
   }
 }
 

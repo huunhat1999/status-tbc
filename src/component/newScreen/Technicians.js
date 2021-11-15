@@ -81,8 +81,7 @@ class Technicians extends Component {
   componentWillMount(){
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-    const token=localStorage.getItem(`tokenGeneral`)
-    console.log("tokenRes",token);
+    const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU' 
     axios.defaults.headers.token = token
     axios.get(apiTechnicians,{params:{
       "condition": {
@@ -91,6 +90,9 @@ class Technicians extends Component {
           "to":to, 
         }
       },
+      branchCode:{
+        in: ['GZRZqMRR']
+    },
       "sort": {
         "indexNumber":1
     },

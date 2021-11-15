@@ -15,14 +15,14 @@ class Coffee extends Component {
   }
   }
   componentWillMount(){
-    axios.defaults.headers.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoibmhhdC50cmFuQHRhbmhvbmdteWdyb3VwLmNvbSIsIm5hbWUiOiJUcuG6p24gSOG7r3UgTmjhuq10IiwidXNlck5hbWUiOiJuaGF0dGgiLCJ1c2VyVHlwZSI6ImNsaWVudCIsImJyYW5jaENvZGVBcnIiOltdLCJhcHBOYW1lIjoiQklfQVBQIiwiaWF0IjoxNjI0MzI0NTg2LCJleHAiOjE2MjQ0MTA5ODZ9.FK-TcAyrpe6NAsib8bqNofFshbVugFNvCoyg_Uuu4V4'
+    axios.defaults.headers.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
     axios.post(`https://stagingapi.trangbeautycenter.com/api/bookings/get-data-with-filter`)
       .then(res => {
         let booking = res.data.data
         this.setState({bookingWaiting:booking})
         console.log("booking",booking);
     })
-    var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoibmhhdC50cmFuQHRhbmhvbmdteWdyb3VwLmNvbSIsIm5hbWUiOiJUcuG6p24gSOG7r3UgTmjhuq10IiwidXNlck5hbWUiOiJuaGF0dGgiLCJ1c2VyVHlwZSI6ImNsaWVudCIsImJyYW5jaENvZGVBcnIiOltdLCJhcHBOYW1lIjoiQklfQVBQIiwiaWF0IjoxNjI0MzI0NTg2LCJleHAiOjE2MjQ0MTA5ODZ9.FK-TcAyrpe6NAsib8bqNofFshbVugFNvCoyg_Uuu4V4';
+    const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
     const host = 'https://stagingapi.trangbeautycenter.com/mng-app'
     const socket = io(host, {
       query: {
