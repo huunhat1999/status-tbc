@@ -14,14 +14,14 @@ class Header extends Component {
                         <img src="../2.png" alt="" width="100%" />
                       </div>
                     </div>
-                    <div className="col-md-7">
+                    <div className="col-md-6">
                       <div className="marquee">
                         {/* <Marquee direction="left"> */}
                           {/* <label > <b>Trang Beauty Center </b> chân thành cảm ơn quý đã đặt niềm tin vào  chúng tôi - Hotline: <b>037.44.66666</b></label> */}
                         {/* </Marquee> */}
                       </div>
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-4">
                       <div className="time-header">
                         <Clock format={'LTS' } ticking={true}></Clock>
                         {/* <Clock format={' | dddd' } ticking={true}></Clock> */}
