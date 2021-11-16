@@ -44,6 +44,7 @@ class Receptionist extends Component {
     openCongratulation:false,
     openContent:false,
     partnerArr : [],
+    bookingStatus:{},
   }
 }
 
@@ -77,9 +78,11 @@ onScroll = () => {
   }
 } 
   componentDidMount(){
+    var branchCode = localStorage.getItem('branch')
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-    const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
+    // const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
+    const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoidHJhbmh1dW5oYXQyMkBnbWFpbC5jb20iLCJuYW1lIjoiVHLhuqduIE5o4bqtdCIsInVzZXJOYW1lIjoibmhhdHRoIiwidXNlclR5cGUiOiJjbGllbnQiLCJicmFuY2hDb2RlQXJyIjpbIkNhblRob0JyYW5jaCIsIkdaUlpxTVJSIiwiVHNHZ0pubWgiXSwiYXBwTmFtZSI6IkJJX0FQUCIsImlhdCI6MTYzNzA0MzczOSwiZXhwIjoxNjM3MTMwMTM5fQ.dZM7QFFIov3dLrE4ALPJJwUXVtRCTBi0_n7AF0-fV_0'
     console.log("tokenRes",token);
     axios.defaults.headers.token = token
     axios.post(apiReceptionist,{
@@ -93,7 +96,7 @@ onScroll = () => {
           "checkInAt":1
       },
         branchCode:{
-          in: ['GZRZqMRR']
+          in: branchCode
        },
         "limit": 1000,
         "page": 1
@@ -122,7 +125,7 @@ onScroll = () => {
           tempListBookingWaiting[indexBooking] = booking.booking;
         }
         this.setState({
-          bookingWaiting: tempListBookingWaiting , partnerArr:booking.booking
+          bookingWaiting: tempListBookingWaiting , partnerArr:booking.booking ,bookingStatus:booking.booking
         })
         this.scrollToBottom()
         console.log("----SSC_BOOKING_UPDATE----",tempListBookingWaiting)
@@ -133,7 +136,7 @@ onScroll = () => {
       tmp.queueConsultation=booking.queue
       let tempListBookingWaiting = [...this.state.bookingWaiting,tmp];
       this.setState({
-        bookingWaiting: tempListBookingWaiting
+        bookingWaiting: tempListBookingWaiting , bookingStatus:booking.queue.booking
       });
       this.scrollToBottom()
       console.log("----SSC_QUEUE_CONSULTATION_CREATE----",tempListBookingWaiting);
@@ -144,7 +147,9 @@ onScroll = () => {
 
   }
     render() {
-       console.log("color",this.state.partnerArr);
+       console.log("color",this.state.bookingStatus);
+       const {bookingStatus} = this.state
+       var status = findStatus(functionColorStatus, bookingStatus.status)
         return (
             <div id="page">
               <div id="header">
@@ -156,7 +161,7 @@ onScroll = () => {
                   <div className="container">
                     <div className="main-page">
                         <div className="row">
-                          <div className="col-md-12">
+                          <div className="col-md-9">
                             <div className="main-right">
                             <TableContainer component={Paper} >
                               <Table  aria-label="simple table" style={{minWidth:650}}  >
@@ -206,6 +211,33 @@ onScroll = () => {
                               </Table>
                               </TableContainer>
                             </div>
+                          </div>
+                          <div className="col-md-3">
+                          <div className="main-col3">
+                          {bookingStatus!==null?<TableContainer component={Paper} >
+                              <Table  aria-label="simple table" style={{minWidth:650}}  >
+                                <TableHead>
+                                  <TableRow>
+                                    <TableCell align="left">Khách hàng</TableCell>
+                                  </TableRow>
+                                </TableHead>
+                                <TableBody >
+                                {bookingStatus.status !=="WAIT" && bookingStatus.status !=="WAS_CHECK_IN" && bookingStatus.status!=="WAS_CHECK_OUT" && <TableRow>
+                                    <TableCell>
+                                      <div className="td-name">
+                                        <li className="td-li">{bookingStatus.partnerName}</li>
+                                      </div>
+                                      <div className="td-dv" >
+                                        <li className="td-li" style={{color:`${status!==null && status.color}`}}>
+                                       {status!==null?status.returnStatus:bookingStatus.status}</li>
+                                      </div>
+                                    </TableCell>
+                                  </TableRow>
+                                  }
+                                </TableBody>
+                              </Table>
+                              </TableContainer>:""}
+                          </div>
                           </div>
                         </div>
                     </div>

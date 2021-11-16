@@ -304,3 +304,42 @@ div#page {
     justify-content: space-between;
     height: 100vh;
 }
+.branchBooking {
+    position: absolute;
+    z-index: 1;
+    top: 8.9%;
+    left: 1.1%;
+    width: 16%;
+    text-align: center;
+    border-radius: 4px;
+    background: #FFF;
+    color: #6400ff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.allCheckBranch {
+    display: flex;
+    flex-direction: column;
+}
+.itemCheckBranch {
+    background: #ffffff;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    color: #131313;
+    border: 0.5px solid rgb(101 100 100 / 87%);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.5s all ease;
+}
+
+.itemCheckBranch:hover {
+    background: #607d8b;
+    color: #fff;
+}
+
+.itemCheckBranch.active {
+    background: #607d8b;
+    color: #fff;
+}
+
