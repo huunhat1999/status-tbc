@@ -16,6 +16,10 @@ class ActionBranch extends Component {
     }
 
     componentDidMount(){
+      // const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
+      const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoidHJhbmh1dW5oYXQyMkBnbWFpbC5jb20iLCJuYW1lIjoiVHLhuqduIE5o4bqtdCIsInVzZXJOYW1lIjoibmhhdHRoIiwidXNlclR5cGUiOiJjbGllbnQiLCJicmFuY2hDb2RlQXJyIjpbIkNhblRob0JyYW5jaCIsIkdaUlpxTVJSIiwiVHNHZ0pubWgiXSwiYXBwTmFtZSI6IkJJX0FQUCIsImlhdCI6MTYzNzA3NzI5MSwiZXhwIjoxNjM3MTYzNjkxfQ.kUJZuHohbNNXiqWnTFIub5jgLaGqchej3zBqhNYS988'
+      console.log("tokenRes",token);
+      axios.defaults.headers.token = token
         axios.get(branch)
         .then(res=>{
           console.log(res);
@@ -25,41 +29,14 @@ class ActionBranch extends Component {
       close = ()=>{
         this.props.close()
     }
-    doneChoose = (branch) =>{
-        let from = new Date().setHours(0,0)
-        let to = new Date().setHours(23,59)
-        var branchCode = localStorage.getItem('branch')
-        if(branchCode!==branch)
-        {
-            axios.post(apiReceptionist,{
-                "condition":{
-                      checkInAt: {
-                        from: from,
-                        to: to
-                      },
-                  },
-                  "sort": {
-                    "checkInAt":1
-                },
-                  branchCode:{
-                    in: branchCode
-                 },
-                  "limit": 1000,
-                  "page": 1
-              })
-              .then(res => {
-                //   this.setState({bookingWaiting:res.data.data})
-                //   console.log("bookingFilter",res.data);
-              })
-        }
-        this.setState({done:true})
-    }
+
       setBranch = (code) =>{
-          console.log(code);
+        console.log(code);
         var old = localStorage.getItem('branch')
+        console.log(old);
         localStorage.setItem('branch', code)
         this.setState({code},()=>{
-            this.doneChoose(old)
+            this.props.doneChoose(old)
         })
     }
     render() {

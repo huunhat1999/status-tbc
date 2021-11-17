@@ -15,16 +15,9 @@ class App extends Component {
     super(props);
     document.title="LỄ TÂN";
     this.state={
-      openBranch : true
       // token: null
   }
 }
-  openBranch = () => {
-    this.setState({openBranch:true})
-  }
-  closeBranch = () => {
-    this.setState({openBranch:false})
-  }
 
   // componentDidMount=()=>{
   //   const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
@@ -71,7 +64,7 @@ class App extends Component {
   // };
   getDisplay=()=>{
     return <Router>
-            <Route path="/" exact component={Receptionist}></Route>
+            <Route path="/" exact component={Receptionist} ></Route>
             <Route path="/tu-van/" exact component={Counselors}></Route>
             <Route path="/dieu-tri/" exact component={Technicians}></Route>
             <Route path="/tham-kham/" exact component={Visit}></Route>
@@ -86,7 +79,7 @@ class App extends Component {
         Chưa chọn chi nhánh
         </div> */}
       {this.getDisplay()}
-      {this.state.openBranch === true&&<ActionBranch close = {this.closeBranch}/>}
+      {/* {this.state.openBranch === true&&<ActionBranch close = {this.closeBranch}/>} */}
       </div>
     )
   }

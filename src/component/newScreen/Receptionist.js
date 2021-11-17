@@ -17,7 +17,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Content from './Content';
-import ScrollToBottom from 'react-scroll-to-bottom';
+import ActionBranch from './ActionBranch';
 
 const findStatus = (data, val) => {
   var tmp = _.filter(data, {listStatus: val})
@@ -45,6 +45,7 @@ class Receptionist extends Component {
     openContent:false,
     partnerArr : [],
     bookingStatus:{},
+    openBranch : true,
   }
 }
 
@@ -60,7 +61,12 @@ scrollToBottom = () => {
   }
   
 };
-
+openBranch = () => {
+  this.setState({openBranch:true})
+}
+closeBranch = () => {
+  this.setState({openBranch:false})
+}
 componentDidUpdate(prevProps, prevState) {
     if (this.props.isSend===false) 
       {
@@ -77,12 +83,13 @@ onScroll = () => {
   {
   }
 } 
-  componentDidMount(){
-    var branchCode = localStorage.getItem('branch')
+reload = () =>{
+  var branchCode = localStorage.getItem('branch')
+  console.log(branchCode);
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
     // const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
-    const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoidHJhbmh1dW5oYXQyMkBnbWFpbC5jb20iLCJuYW1lIjoiVHLhuqduIE5o4bqtdCIsInVzZXJOYW1lIjoibmhhdHRoIiwidXNlclR5cGUiOiJjbGllbnQiLCJicmFuY2hDb2RlQXJyIjpbIkNhblRob0JyYW5jaCIsIkdaUlpxTVJSIiwiVHNHZ0pubWgiXSwiYXBwTmFtZSI6IkJJX0FQUCIsImlhdCI6MTYzNzA0MzczOSwiZXhwIjoxNjM3MTMwMTM5fQ.dZM7QFFIov3dLrE4ALPJJwUXVtRCTBi0_n7AF0-fV_0'
+    const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoidHJhbmh1dW5oYXQyMkBnbWFpbC5jb20iLCJuYW1lIjoiVHLhuqduIE5o4bqtdCIsInVzZXJOYW1lIjoibmhhdHRoIiwidXNlclR5cGUiOiJjbGllbnQiLCJicmFuY2hDb2RlQXJyIjpbIkNhblRob0JyYW5jaCIsIkdaUlpxTVJSIiwiVHNHZ0pubWgiXSwiYXBwTmFtZSI6IkJJX0FQUCIsImlhdCI6MTYzNzA3NzI5MSwiZXhwIjoxNjM3MTYzNjkxfQ.kUJZuHohbNNXiqWnTFIub5jgLaGqchej3zBqhNYS988'
     console.log("tokenRes",token);
     axios.defaults.headers.token = token
     axios.post(apiReceptionist,{
@@ -91,13 +98,44 @@ onScroll = () => {
               from: from,
               to: to
             },
+            branchCode:{
+              in: [branchCode]
+           },
         },
         "sort": {
           "checkInAt":1
       },
-        branchCode:{
-          in: branchCode
-       },
+        "limit": 1000,
+        "page": 1
+    })
+    .then(res => {
+      console.log("bookingFilterssss",res.data);
+        this.setState({bookingWaiting:res.data.data})
+    })
+    
+}
+  componentDidMount(){
+    var branchCode = localStorage.getItem('branch')
+    console.log(branchCode);
+    let from = new Date().setHours(0,0)
+    let to = new Date().setHours(23,59)
+    // const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
+    const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoidHJhbmh1dW5oYXQyMkBnbWFpbC5jb20iLCJuYW1lIjoiVHLhuqduIE5o4bqtdCIsInVzZXJOYW1lIjoibmhhdHRoIiwidXNlclR5cGUiOiJjbGllbnQiLCJicmFuY2hDb2RlQXJyIjpbIkNhblRob0JyYW5jaCIsIkdaUlpxTVJSIiwiVHNHZ0pubWgiXSwiYXBwTmFtZSI6IkJJX0FQUCIsImlhdCI6MTYzNzA3NzI5MSwiZXhwIjoxNjM3MTYzNjkxfQ.kUJZuHohbNNXiqWnTFIub5jgLaGqchej3zBqhNYS988'
+    console.log("tokenRes",token);
+    axios.defaults.headers.token = token
+    axios.post(apiReceptionist,{
+      "condition":{
+            checkInAt: {
+              from: from,
+              to: to
+            },
+            branchCode:{
+              in: [branchCode]
+           },
+        },
+        "sort": {
+          "checkInAt":1
+      },
         "limit": 1000,
         "page": 1
     })
@@ -146,6 +184,15 @@ onScroll = () => {
     });
 
   }
+  doneChoose = (branch) =>{
+    console.log(branch);
+    var branchCode = localStorage.getItem('branch')
+    if(branchCode!==branch)
+    {
+      this.reload()
+    }
+    this.setState({done:true})
+}
     render() {
        console.log("color",this.state.bookingStatus);
        const {bookingStatus} = this.state
@@ -155,6 +202,7 @@ onScroll = () => {
               <div id="header">
               <Header></Header>
               </div>
+              {this.state.openBranch === true&&<ActionBranch reload={this.reload} doneChoose={this.doneChoose} close = {this.closeBranch}/>}
               {this.state.openContent === true ? <Content partnerName = {this.state.partnerArr.partnerName}/> : ""}
               <div id="content" ref={this.chatContainer} onScroll={this.onScroll}>
                 <div className="main">
@@ -212,8 +260,8 @@ onScroll = () => {
                               </TableContainer>
                             </div>
                           </div>
-                          <div className="col-md-3">
-                          <div className="main-col3">
+                          <div className="col-md-3" >
+                          <div className="main-col3" >
                           {bookingStatus!==null?<TableContainer component={Paper} >
                               <Table  aria-label="simple table" style={{minWidth:650}}  >
                                 <TableHead>
@@ -221,7 +269,7 @@ onScroll = () => {
                                     <TableCell align="left">Khách hàng</TableCell>
                                   </TableRow>
                                 </TableHead>
-                                <TableBody >
+                                <TableBody  >
                                 {bookingStatus.status !=="WAIT" && bookingStatus.status !=="WAS_CHECK_IN" && bookingStatus.status!=="WAS_CHECK_OUT" && <TableRow>
                                     <TableCell>
                                       <div className="td-name">

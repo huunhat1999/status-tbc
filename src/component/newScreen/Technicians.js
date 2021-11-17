@@ -13,19 +13,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import Paper from '@material-ui/core/Paper'
+import ActionBranch from './ActionBranch';;
  
-const findStatusTreatment = (val) =>{
-  var index = _.findIndex(functionTech,{listStatus:val})
-  if(index>-1)
-  {
-      return functionTech[index].returnStatus
-  }
-  else
-  {
-      return val
-  }
-}
 const findStatus = (data, val) => {
   var tmp = _.filter(data, {listStatus: val})
   console.log(tmp);
@@ -48,6 +38,7 @@ class Technicians extends Component {
     ],
     isLoading:false,
     bookingTreatment:[],
+    openBranch : true,
   }
   }
 
@@ -62,6 +53,12 @@ class Technicians extends Component {
     
   };
   
+  openBranch = () => {
+    this.setState({openBranch:true})
+  }
+  closeBranch = () => {
+    this.setState({openBranch:false})
+  }
   componentDidUpdate(prevProps, prevState) {
       if (this.props.isSend===false) 
         {
@@ -78,21 +75,54 @@ class Technicians extends Component {
     {
     }
   } 
-  componentWillMount(){
+  reload = () =>{
+    var branchCode = localStorage.getItem('branch')
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-    const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU' 
+    // const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
+    const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoidHJhbmh1dW5oYXQyMkBnbWFpbC5jb20iLCJuYW1lIjoiVHLhuqduIE5o4bqtdCIsInVzZXJOYW1lIjoibmhhdHRoIiwidXNlclR5cGUiOiJjbGllbnQiLCJicmFuY2hDb2RlQXJyIjpbIkNhblRob0JyYW5jaCIsIkdaUlpxTVJSIiwiVHNHZ0pubWgiXSwiYXBwTmFtZSI6IkJJX0FQUCIsImlhdCI6MTYzNzA3NzI5MSwiZXhwIjoxNjM3MTYzNjkxfQ.kUJZuHohbNNXiqWnTFIub5jgLaGqchej3zBqhNYS988'
     axios.defaults.headers.token = token
     axios.get(apiTechnicians,{params:{
       "condition": {
         "created": {
           "from": from,
           "to":to, 
-        }
+        },
+        branchCode:{
+          in: [branchCode]
       },
-      branchCode:{
-        in: ['GZRZqMRR']
+      },
+
+      "sort": {
+        "indexNumber":1
     },
+      "limit": 1000,
+      "page": 1
+  }})
+      .then(res => {  
+        this.setState({bookingWaiting:res.data.data,bookingTreatment:res.data})
+        console.log("booking",res.data);
+    })
+      
+  }
+
+  componentWillMount(){
+    var branchCode = localStorage.getItem('branch')
+    let from = new Date().setHours(0,0)
+    let to = new Date().setHours(23,59)
+   // const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
+   const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoidHJhbmh1dW5oYXQyMkBnbWFpbC5jb20iLCJuYW1lIjoiVHLhuqduIE5o4bqtdCIsInVzZXJOYW1lIjoibmhhdHRoIiwidXNlclR5cGUiOiJjbGllbnQiLCJicmFuY2hDb2RlQXJyIjpbIkNhblRob0JyYW5jaCIsIkdaUlpxTVJSIiwiVHNHZ0pubWgiXSwiYXBwTmFtZSI6IkJJX0FQUCIsImlhdCI6MTYzNzA3NzI5MSwiZXhwIjoxNjM3MTYzNjkxfQ.kUJZuHohbNNXiqWnTFIub5jgLaGqchej3zBqhNYS988'
+    axios.defaults.headers.token = token
+    axios.get(apiTechnicians,{params:{
+      "condition": {
+        "created": {
+          "from": from,
+          "to":to, 
+        },
+        branchCode:{
+          in: [branchCode]
+      },
+      },
       "sort": {
         "indexNumber":1
     },
@@ -133,12 +163,22 @@ class Technicians extends Component {
         console.log('disconnect', socket)
     });
   }
+  doneChoose = (branch) =>{
+    console.log(branch);
+    var branchCode = localStorage.getItem('branch')
+    if(branchCode!==branch)
+    {
+      this.reload()
+    }
+    this.setState({done:true})
+}
     render() {
         return (
             <div id="page">
             <div id="header">
               <Header></Header>
               </div>
+              {this.state.openBranch === true&&<ActionBranch reload={this.reload} doneChoose={this.doneChoose} close = {this.closeBranch}/>}
               <div id="content" ref={this.chatContainer} onScroll={this.onScroll}>
             <div className="main">
               <div className="container">
