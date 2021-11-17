@@ -11,7 +11,7 @@ const functionColorStatus = [
     },
     {
         listStatus:"WAS_CONSULTED",
-        returnStatus:"Đã tư vấn ",
+        returnStatus:"Hoàn thành tư vấn ",
         'color':"#7C4DFF"  
     },
     {

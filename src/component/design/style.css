@@ -366,3 +366,42 @@ div#page {
     text-align: center;
 }
 
+
+.popUpPartner {
+    position: fixed;
+    top: 30%;
+    background: linear-gradient(to right,#5da3f0,#05e36d);
+    display: flex;
+    flex-direction: column;
+    border-radius: 6px;
+    min-width: 320px;
+    color: #fff;
+}
+
+.pop-des {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 12px;
+}
+
+.pop-name {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 12px 12px 0px 12px;
+}
+
+span.pop-position {
+    display: block;
+    margin: 8px 12px 0px 12px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+span.pop-contact {
+    background: #673ab7;
+    width: fit-content;
+    padding: 0px 12px;
+    border-radius: 12px;
+    margin: 0px 12px 0px 12px;
+    font-size: 14px;
+}

@@ -9,8 +9,8 @@ class Content extends Component {
                         <img src="../congrats7.png" alt=""/>
                     </div>
                     <div className="contentLabel">
-                        <label>Chúc mừng khách hàng : {this.props.partnerName}</label>
-                        <div>Cám ơn bạn đã sử dụng dịch vụ của Trang Beauty Center</div>
+                        <label>Chúc mừng khách hàng {this.props.partnerName}</label>
+                        <div>Cảm ơn bạn đã tin tưởng & điều trị tại Trang Beauty Center</div>
                     </div>
                 </div>
             </div>

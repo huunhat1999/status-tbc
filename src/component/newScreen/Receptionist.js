@@ -88,8 +88,8 @@ reload = () =>{
   console.log(branchCode);
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-    // const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
-    const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoidHJhbmh1dW5oYXQyMkBnbWFpbC5jb20iLCJuYW1lIjoiVHLhuqduIE5o4bqtdCIsInVzZXJOYW1lIjoibmhhdHRoIiwidXNlclR5cGUiOiJjbGllbnQiLCJicmFuY2hDb2RlQXJyIjpbIkNhblRob0JyYW5jaCIsIkdaUlpxTVJSIiwiVHNHZ0pubWgiXSwiYXBwTmFtZSI6IkJJX0FQUCIsImlhdCI6MTYzNzA3NzI5MSwiZXhwIjoxNjM3MTYzNjkxfQ.kUJZuHohbNNXiqWnTFIub5jgLaGqchej3zBqhNYS988'
+    const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
+    // const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoidHJhbmh1dW5oYXQyMkBnbWFpbC5jb20iLCJuYW1lIjoiVHLhuqduIE5o4bqtdCIsInVzZXJOYW1lIjoibmhhdHRoIiwidXNlclR5cGUiOiJjbGllbnQiLCJicmFuY2hDb2RlQXJyIjpbIkNhblRob0JyYW5jaCIsIkdaUlpxTVJSIiwiVHNHZ0pubWgiXSwiYXBwTmFtZSI6IkJJX0FQUCIsImlhdCI6MTYzNzA3NzI5MSwiZXhwIjoxNjM3MTYzNjkxfQ.kUJZuHohbNNXiqWnTFIub5jgLaGqchej3zBqhNYS988'
     console.log("tokenRes",token);
     axios.defaults.headers.token = token
     axios.post(apiReceptionist,{
@@ -119,8 +119,8 @@ reload = () =>{
     console.log(branchCode);
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-    // const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
-    const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoidHJhbmh1dW5oYXQyMkBnbWFpbC5jb20iLCJuYW1lIjoiVHLhuqduIE5o4bqtdCIsInVzZXJOYW1lIjoibmhhdHRoIiwidXNlclR5cGUiOiJjbGllbnQiLCJicmFuY2hDb2RlQXJyIjpbIkNhblRob0JyYW5jaCIsIkdaUlpxTVJSIiwiVHNHZ0pubWgiXSwiYXBwTmFtZSI6IkJJX0FQUCIsImlhdCI6MTYzNzA3NzI5MSwiZXhwIjoxNjM3MTYzNjkxfQ.kUJZuHohbNNXiqWnTFIub5jgLaGqchej3zBqhNYS988'
+     const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
+    // const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoidHJhbmh1dW5oYXQyMkBnbWFpbC5jb20iLCJuYW1lIjoiVHLhuqduIE5o4bqtdCIsInVzZXJOYW1lIjoibmhhdHRoIiwidXNlclR5cGUiOiJjbGllbnQiLCJicmFuY2hDb2RlQXJyIjpbIkNhblRob0JyYW5jaCIsIkdaUlpxTVJSIiwiVHNHZ0pubWgiXSwiYXBwTmFtZSI6IkJJX0FQUCIsImlhdCI6MTYzNzA3NzI5MSwiZXhwIjoxNjM3MTYzNjkxfQ.kUJZuHohbNNXiqWnTFIub5jgLaGqchej3zBqhNYS988'
     console.log("tokenRes",token);
     axios.defaults.headers.token = token
     axios.post(apiReceptionist,{
@@ -193,10 +193,77 @@ reload = () =>{
     }
     this.setState({done:true})
 }
+
+renderStatus = () =>{
+  const {bookingStatus} = this.state
+  var status = findStatus(functionColorStatus, bookingStatus.status)
+  
+  switch (bookingStatus.status) {
+    case "IS_CONSULTING":
+        return  <>
+        <span className="pop-status"
+         style={{color:`${status!==null && status.color}`,
+         display: 'block',
+            background: '#fff',
+            width: 'fit-content',
+            padding: '0px 12px',
+            borderRadius: 16,
+            margin: '0px 12px 0px 12px',
+            fontSize: 14,
+                }}>
+              {status!==null?status.returnStatus:bookingStatus.status}
+          </span>
+          <span className="pop-position">
+            Tư vấn viên
+          </span>
+          <span className="pop-contact">
+            {bookingStatus?.queueConsultation?.consultingRoom?.name}
+          </span>
+        </>
+    case "IN_PROGRESS":
+        return  <>
+         <span className="pop-status"
+         style={{color:`${status!==null && status.color}`,
+         display: 'block',
+            background: '#fff',
+            width: 'fit-content',
+            padding: '0px 12px',
+            borderRadius: 16,
+            margin: '0px 12px 0px 12px',
+            fontSize: 14,
+                }}>
+              {status!==null?status.returnStatus:bookingStatus.status}
+          </span>
+          <span className="pop-position">
+            Bác sĩ
+          </span>
+          <span className="pop-contact">
+            {bookingStatus?.latestTreatmentQueue?.treatmentDoctor?.name}
+          </span>
+        </>
+  
+    default:
+      return  <span className="pop-status"
+      style={{color:`${status!==null && status.color}`,
+      display: 'block',
+         background: '#fff',
+         width: 'fit-content',
+         padding: '0px 12px',
+         borderRadius: 16,
+         margin: '0px 12px 0px 12px',
+         fontSize: 14,
+             }}>
+           {status!==null?status.returnStatus:bookingStatus.status}
+       </span>
+  }
+}
+
+
+
     render() {
-       console.log("color",this.state.bookingStatus);
+       console.log("bookingStatus",this.state.bookingStatus);
        const {bookingStatus} = this.state
-       var status = findStatus(functionColorStatus, bookingStatus.status)
+       
         return (
             <div id="page">
               <div id="header">
@@ -260,32 +327,22 @@ reload = () =>{
                               </TableContainer>
                             </div>
                           </div>
-                          <div className="col-md-3" >
-                          <div className="main-col3" >
-                          {bookingStatus!==null?<TableContainer component={Paper} >
-                              <Table  aria-label="simple table" style={{minWidth:650}}  >
-                                <TableHead>
-                                  <TableRow>
-                                    <TableCell align="left">Khách hàng</TableCell>
-                                  </TableRow>
-                                </TableHead>
-                                <TableBody  >
-                                {bookingStatus.status !=="WAIT" && bookingStatus.status !=="WAS_CHECK_IN" && bookingStatus.status!=="WAS_CHECK_OUT" && <TableRow>
-                                    <TableCell>
-                                      <div className="td-name">
-                                        <li className="td-li">{bookingStatus.partnerName}</li>
+                          <div className="col-md-3"style={{
+                            display: 'flex',
+                            paddingLeft: 0,
+                            position:'relative'
+                          }} >
+                         
+                                {!isEmpty(bookingStatus.status) &&
+                                    <div className="popUpPartner">
+                                      <div className="pop-name">
+                                        {bookingStatus.partnerName}
                                       </div>
-                                      <div className="td-dv" >
-                                        <li className="td-li" style={{color:`${status!==null && status.color}`}}>
-                                       {status!==null?status.returnStatus:bookingStatus.status}</li>
+                                      <div className="pop-des" >
+                                        {this.renderStatus()}
                                       </div>
-                                    </TableCell>
-                                  </TableRow>
+                                    </div>
                                   }
-                                </TableBody>
-                              </Table>
-                              </TableContainer>:""}
-                          </div>
                           </div>
                         </div>
                     </div>
