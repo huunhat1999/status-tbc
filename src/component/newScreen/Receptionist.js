@@ -295,7 +295,7 @@ renderStatus = () =>{
                                     return item.status !=="WAIT" && item.status !=="WAS_CHECK_IN" && item.status!=="WAS_CHECK_OUT" && <TableRow key={i}>
                                     <TableCell>
                                       <div className="td">
-                                        <li className="td-li">{_.get(item,'queueConsultation.indexNumber','')}</li>
+                                        <li className="td-li">{i+1}</li>
                                       </div>
                                     </TableCell>
                                     <TableCell>
