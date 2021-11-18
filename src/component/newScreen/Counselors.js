@@ -141,6 +141,7 @@ class Counselors extends Component {
         console.log('connect ok', socket.id)
     });
     socket.on('SSC_QUEUE_CONSULTATION_UPDATE', (booking)=> {
+      var branchCodeChill = localStorage.getItem('branch')
       console.log("SSC_QUEUE_CONSULTATION_UPDATE",booking);
       console.log("listbooking",this.state.bookingWaiting)
 
@@ -150,21 +151,27 @@ class Counselors extends Component {
         tempListBookingWaiting.splice(upDateBooking,1)
         this.setState({bookingWaiting:tempListBookingWaiting})
       }
+      if(branchCodeChill === booking?.queue?.branchCode){
+        console.log(branchCodeChill);
+        this.setState({
+          bookingWaiting: tempListBookingWaiting
+        });
+      }
       else if(upDateBooking!==-1){
         tempListBookingWaiting[upDateBooking]=booking.queue
       }
-      this.setState({
-        bookingWaiting: tempListBookingWaiting
-      });
       console.log("----SSC_BOOKING_UPDATE---",tempListBookingWaiting);
     })
     
     socket.on('SSC_QUEUE_CONSULTATION_CREATE',(booking)=> {
+      var branchCodeCreate = localStorage.getItem('branch')
       console.log("checkQueue",booking);
       let tempListBookingWaiting = [...this.state.bookingWaiting,booking.queue];
+      if(branchCodeCreate === booking?.queue?.booking?.branchCode){
       this.setState({
         bookingWaiting: tempListBookingWaiting
       });
+    }
       console.log("----SSC_QUEUE_CONSULTATION_CREATE----",tempListBookingWaiting);
     })
     socket.on('disconnect', function(){
