@@ -268,6 +268,15 @@ renderStatus = () =>{
 }
 
 
+  toggleFullScreen=()=> {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  }
 
     render() {
        console.log("bookingStatus",this.state.bookingStatus);
@@ -281,11 +290,10 @@ renderStatus = () =>{
             return item
           }
        })
-
         return (
             <div id="page">
               <div id="header">
-              <Header></Header>
+              <Header toggleFullScreen ={this.toggleFullScreen}></Header>
               </div>
               {this.state.openBranch === true&&<ActionBranch reload={this.reload} doneChoose={this.doneChoose} close = {this.closeBranch}/>}
               {this.state.openContent === true ? <Content partnerName = {this.state.partnerArr.partnerName}/> : ""}

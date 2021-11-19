@@ -10,15 +10,15 @@ class Header extends Component {
                 <div className="container">
                   <div className="row">
                     <div className="col-md-2">
-                      <div className="img-logo">
-                        <img src="../2.png" alt="" width="100%" />
+                      <div className="img-logo" >
+                        <img src="../2.png" alt="" width="100%" onClick={()=>this.props.toggleFullScreen()}/>
                       </div>
                     </div>
                     <div className="col-md-6">
                       <div className="marquee">
-                        {/* <Marquee direction="left"> */}
-                          {/* <label > <b>Trang Beauty Center </b> chân thành cảm ơn quý đã đặt niềm tin vào  chúng tôi - Hotline: <b>037.44.66666</b></label> */}
-                        {/* </Marquee> */}
+                        {/* <Marquee direction="left">
+                          <label > <b>Trang Beauty Center </b> chân thành cảm ơn quý đã đặt niềm tin vào  chúng tôi - Hotline: <b>037.44.66666</b></label>
+                        </Marquee> */}
                       </div>
                     </div>
                     <div className="col-md-4">
