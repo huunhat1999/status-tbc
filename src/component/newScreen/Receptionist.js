@@ -367,18 +367,18 @@ renderStatus = () =>{
                           }} >
                          
                                 {!isEmpty(bookingStatus.status) &&
-                                    <div className="popUpPartner">
+                                    (bookingStatus.status!=='WAIT'&&
+                                        bookingStatus.status!=='WAS_CHECK_IN'&&
+                                        bookingStatus.status!=='CANCEL'&&
+                                        bookingStatus.status!=='WAS_CHECK_OUT')&&
+                                        <div className="popUpPartner">
                                       <div className="pop-name">
                                         {bookingStatus.partnerName}
                                       </div>
                                       <div className="pop-des" >
-                                        {(bookingStatus.status!=='WAIT'&&
-                                        bookingStatus.status!=='WAS_CHECK_IN'&&
-                                        bookingStatus.status!=='CANCEL'&&
-                                        bookingStatus.status!=='WAS_CHECK_OUT')&&
-                                        this.renderStatus()}
+                                        {this.renderStatus()}
+                                        </div>
                                       </div>
-                                    </div>
                                   }
                           </div>
                         </div>
