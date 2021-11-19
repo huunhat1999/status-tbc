@@ -262,8 +262,17 @@ renderStatus = () =>{
 
     render() {
        console.log("bookingStatus",this.state.bookingStatus);
-       const {bookingStatus} = this.state
-       
+       const {bookingStatus, bookingWaiting} = this.state
+       let tmpBookingWaiting = bookingWaiting.filter((item)=> {
+         if(item.status !=="WAIT" && 
+         item.status !=="WAS_CHECK_IN" && 
+         item.status!=='CANCEL'&&
+         item.status!=="WAS_CHECK_OUT")
+          {
+            return item
+          }
+       })
+
         return (
             <div id="page">
               <div id="header">
@@ -290,9 +299,13 @@ renderStatus = () =>{
                                   </TableRow>
                                 </TableHead>
                                 <TableBody >
-                                {this.state.bookingWaiting.map((item,i)=>{
+                                {tmpBookingWaiting.length>0&&tmpBookingWaiting.map((item,i)=>{
                                   var status = findStatus(functionColorStatus, item.status)
-                                    return item.status !=="WAIT" && item.status !=="WAS_CHECK_IN" && item.status!=="WAS_CHECK_OUT" && <TableRow key={i}>
+                                    return item.status !=="WAIT" && 
+                                    item.status !=="WAS_CHECK_IN" && 
+                                    bookingStatus.status!=='CANCEL'&&
+                                    item.status!=="WAS_CHECK_OUT" && 
+                                    <TableRow key={i}>
                                     <TableCell>
                                       <div className="td">
                                         <li className="td-li">{i+1}</li>
@@ -317,7 +330,20 @@ renderStatus = () =>{
                                     </TableCell>
                                     <TableCell>
                                       <div className="td-time">
-                                      <li className="td-li"><Moment format="hh:mm">{item.updated}</Moment> - <Moment format="DD/MM/YYYY">{item.updated}</Moment></li>
+                                      <p className="td-li" style={{
+                                        fontSize: '0.9rem',
+                                        marginBottom: 0
+                                      }}>
+                                        <Moment format="hh:mm">{item.updated}</Moment> - <Moment format="DD/MM/YYYY">{item.updated}</Moment>
+                                      </p>
+                                      <p className="td-li" style={{
+                                        fontSize: '12px',
+                                        color: '#9e9e9e',
+                                        marginBottom: 0,
+                                        fontStyle:'italic'
+                                      }}>
+                                        Check In: <Moment format="hh:mm">{item.checkInAt}</Moment> 
+                                      </p>
                                       </div>
                                     </TableCell>
                                   </TableRow>
@@ -339,7 +365,11 @@ renderStatus = () =>{
                                         {bookingStatus.partnerName}
                                       </div>
                                       <div className="pop-des" >
-                                        {this.renderStatus()}
+                                        {(bookingStatus.status!=='WAIT'&&
+                                        bookingStatus.status!=='WAS_CHECK_IN'&&
+                                        bookingStatus.status!=='CANCEL'&&
+                                        bookingStatus.status!=='WAS_CHECK_OUT')&&
+                                        this.renderStatus()}
                                       </div>
                                     </div>
                                   }
