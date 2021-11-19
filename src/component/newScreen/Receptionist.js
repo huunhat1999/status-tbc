@@ -160,12 +160,14 @@ reload = () =>{
           }) 
           this.scrollToBottom()
         }
-        if(branchCodeChill === booking?.booking?.branchCode){
-          console.log(branchCodeChill);
-          this.setState({bookingStatus:booking.booking,bookingWaiting: tempListBookingWaiting,partnerArr:booking.booking})
-        }
-        else if(indexBooking !==-1){
+        // if(branchCodeChill === booking?.booking?.branchCode){
+        //   console.log(branchCodeChill);
+        //   this.setState({bookingStatus:booking.booking,bookingWaiting: tempListBookingWaiting,partnerArr:booking.booking})
+        // }
+        else if(indexBooking !==-1 && branchCodeChill === booking?.booking?.branchCode){
+            console.log(branchCodeChill);
           tempListBookingWaiting[indexBooking] = booking.booking;
+          this.setState({bookingStatus:booking.booking,bookingWaiting: tempListBookingWaiting,partnerArr:booking.booking})
         }
         // this.setState({
         //   bookingWaiting: tempListBookingWaiting , partnerArr:booking.booking ,bookingStatus:booking.booking
