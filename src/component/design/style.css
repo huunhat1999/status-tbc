@@ -8,6 +8,7 @@ div#page {
 body {
     background: #f9f9f9 !important;
     font-family: 'Open Sans',sans-serif !important;
+    font-size: 14px;
 }
 .header-page {
     background: linear-gradient(to right,#4b09b5,#E5244A);
@@ -109,7 +110,6 @@ li.td-li {
 }
 .td-dv {
     line-height: 2.2;
-    font-size: 17px;
     font-family: 'Open Sans',sans-serif;
 }
 .td-tech {
@@ -198,31 +198,25 @@ label.divDV {
 }
 .td-name {
     color: #550bad;
-    font-size: 17px;
     font-family: 'Open Sans',sans-serif;
-    font-weight: 500;
     text-transform: uppercase;
 }
 .td-phone {
     color: #433c3c;
-    font-size: 17px;
     font-family: 'Open Sans',sans-serif;
 }
 .td-time {
     color: #433c3c;
-    font-size: 17px;
     font-family: 'Open Sans',sans-serif;
 }
 .td-dv {
     line-height: 2.2;
-    font-size: 17px;
     font-family: 'Open Sans',sans-serif;
 }
 .MuiTableCell-alignLeft {
     text-align: left;
-    font-size: 17px;
     font-family: 'Open Sans',sans-serif;
-    font-weight: 700;
+    font-weight: 500;
     text-transform: uppercase;
 }
 /* .MuiPaper-root.MuiTableContainer-root.MuiPaper-elevation1.MuiPaper-rounded {
@@ -230,7 +224,7 @@ label.divDV {
     overflow: auto;
 } */
 th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignLeft {
-    font-weight: 700;
+    font-weight: 500;
 }
 ::-webkit-scrollbar {
     width: 5px;
@@ -404,4 +398,12 @@ span.pop-contact {
     border-radius: 12px;
     margin: 0px 12px 0px 12px;
     font-size: 14px;
+}
+.MuiTableCell-root{
+    padding: 8px!important;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
 }
