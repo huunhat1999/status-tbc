@@ -18,6 +18,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Content from './Content';
 import ActionBranch from './ActionBranch';
+import {token} from '../Token'
 
 const findStatus = (data, val) => {
   var tmp = _.filter(data, {listStatus: val})
@@ -46,6 +47,7 @@ class Receptionist extends Component {
     partnerArr : [],
     bookingStatus:{},
     openBranch : true,
+    bookingCheckout:[]
   }
 }
 
@@ -88,8 +90,6 @@ reload = () =>{
   console.log(branchCode);
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-    const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
-    // const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoidHJhbmh1dW5oYXQyMkBnbWFpbC5jb20iLCJuYW1lIjoiVHLhuqduIE5o4bqtdCIsInVzZXJOYW1lIjoibmhhdHRoIiwidXNlclR5cGUiOiJjbGllbnQiLCJicmFuY2hDb2RlQXJyIjpbIkNhblRob0JyYW5jaCIsIkdaUlpxTVJSIiwiVHNHZ0pubWgiXSwiYXBwTmFtZSI6IkJJX0FQUCIsImlhdCI6MTYzNzE5NzY5NywiZXhwIjoxNjM3Mjg0MDk3fQ.U29OzWXNYi25Cr6BpqkmdH1HhYgotGLk1Xjbg7-ccsc'
     console.log("tokenRes",token);
     axios.defaults.headers.token = token
     axios.post(apiReceptionist,{
@@ -112,6 +112,29 @@ reload = () =>{
       console.log("bookingFilterssss",res.data);
         this.setState({bookingWaiting:res.data.data})
     })
+    axios.post(apiReceptionist,{
+      "condition":{
+            checkInAt: {
+              from: from,
+              to: to
+            },
+            branchCode:{
+              in: [branchCode]
+           },
+           status:{
+             in:['WAS_CHECK_OUT']
+           }
+        },
+        "sort": {
+          "checkInAt":1
+      },
+        "limit": 1000,
+        "page": 1
+    })
+    .then(res => {
+        this.setState({bookingCheckout:res.data.data})
+        console.log("bookingCheckout",res.data);
+    })
     
 }
   componentDidMount(){
@@ -119,8 +142,6 @@ reload = () =>{
     console.log(branchCode);
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-     const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTVjNjI3ZjUzMWM4MzAwMTM0ZDJlY2MiLCJlbXBsb3llZUNvZGUiOiJERVZfVSIsImVtcGxveWVlSWQiOiI2MTVjNjIxZTUzMWM4MzAwMTM0ZDJlY2IiLCJuYW1lIjoiRGV2IEFjY291bnQiLCJ1c2VyTmFtZSI6ImRldmFjYyIsInVzZXJUeXBlIjoiY2xpZW50IiwiYnJhbmNoQ29kZUFyciI6WyJDTjMyIiwiQkgiXSwiYXBwTmFtZSI6Ik1OR19BUFAiLCJpYXQiOjE2MzY5Njc1MDIsImV4cCI6NDc5MDU2NzUwMn0.2oLm_rnWPigZRpo6upLSAVC0eVG5knl4IT3BT5ZfiyU'
-    // const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZmZkMTY4ZDE0YmI3ZDI1ZGNlNDc1ZDIiLCJlbXBsb3llZUNvZGUiOiJURUNILjAyIiwiZW1wbG95ZWVJZCI6IjVmZmQxNWQzMTRiYjdkMjVkY2U0NzVkMCIsImVtYWlsIjoidHJhbmh1dW5oYXQyMkBnbWFpbC5jb20iLCJuYW1lIjoiVHLhuqduIE5o4bqtdCIsInVzZXJOYW1lIjoibmhhdHRoIiwidXNlclR5cGUiOiJjbGllbnQiLCJicmFuY2hDb2RlQXJyIjpbIkNhblRob0JyYW5jaCIsIkdaUlpxTVJSIiwiVHNHZ0pubWgiXSwiYXBwTmFtZSI6IkJJX0FQUCIsImlhdCI6MTYzNzE5NzY5NywiZXhwIjoxNjM3Mjg0MDk3fQ.U29OzWXNYi25Cr6BpqkmdH1HhYgotGLk1Xjbg7-ccsc'
     console.log("tokenRes",token);
     axios.defaults.headers.token = token
     axios.post(apiReceptionist,{
@@ -143,6 +164,29 @@ reload = () =>{
         this.setState({bookingWaiting:res.data.data})
         console.log("bookingFilter",res.data);
     })
+    axios.post(apiReceptionist,{
+      "condition":{
+            checkInAt: {
+              from: from,
+              to: to
+            },
+            branchCode:{
+              in: [branchCode]
+           },
+           status:{
+             in:['WAS_CHECK_OUT']
+           }
+        },
+        "sort": {
+          "checkInAt":1
+      },
+        "limit": 1000,
+        "page": 1
+    })
+    .then(res => {
+        this.setState({bookingCheckout:res.data.data})
+        console.log("bookingCheckout",res.data);
+    })
     socket.on('connect',function() {
         console.log('connect ok', socket.id)
     });
@@ -152,7 +196,7 @@ reload = () =>{
         let tempListBookingWaiting = [...this.state.bookingWaiting];
         let indexBooking = tempListBookingWaiting.findIndex(item=> item._id === booking.booking._id);
         if(booking.booking.status === "WAS_CHECK_OUT"){
-          tempListBookingWaiting.splice(indexBooking,1)
+          // tempListBookingWaiting.splice(indexBooking,1)
           this.setState({bookingWaiting:tempListBookingWaiting, openContent:true},()=>{
             setTimeout(() => {
               this.setState({openContent:false})
@@ -164,6 +208,15 @@ reload = () =>{
         //   console.log(branchCodeChill);
         //   this.setState({bookingStatus:booking.booking,bookingWaiting: tempListBookingWaiting,partnerArr:booking.booking})
         // }
+        // if(booking.booking.status === "WAS_CHECK_OUT"){
+        //   tempListBookingWaiting[indexBooking] = booking.booking;
+        //   this.setState({bookingCheckout:tempListBookingWaiting})
+        // }
+        if(booking.booking.status === "WAS_CHECK_OUT"){
+          console.log("ahihi");
+        tempListBookingWaiting[indexBooking] = booking.booking;
+        this.setState({bookingCheckout:tempListBookingWaiting})
+        }
         else if(indexBooking !==-1 && branchCodeChill === booking?.booking?.branchCode){
             console.log(branchCodeChill);
           tempListBookingWaiting[indexBooking] = booking.booking;
@@ -280,7 +333,8 @@ renderStatus = () =>{
 
     render() {
        console.log("bookingStatus",this.state.bookingStatus);
-       const {bookingStatus, bookingWaiting} = this.state
+       const {bookingStatus, bookingWaiting,bookingCheckout} = this.state
+       console.log({bookingCheckout});
        let tmpBookingWaiting = bookingWaiting.filter((item)=> {
          if(item.status !=="WAIT" && 
          item.status !=="WAS_CHECK_IN" && 
@@ -297,20 +351,42 @@ renderStatus = () =>{
               </div>
               {this.state.openBranch === true&&<ActionBranch reload={this.reload} doneChoose={this.doneChoose} close = {this.closeBranch}/>}
               {this.state.openContent === true ? <Content partnerName = {this.state.partnerArr.partnerName}/> : ""}
-              <div id="content" ref={this.chatContainer} onScroll={this.onScroll}>
+              <div id="content" >
                 <div className="main">
                   <div className="container">
                     <div className="main-page">
-                        <div className="row">
-                          <div className="col-md-9">
-                            <div className="main-right">
+                        <div className="row" >
+                          <div className="col-md-8" style={{height: 'calc(100vh - 190px)',overflowY: 'scroll'}} ref={this.chatContainer} onScroll={this.onScroll} >
+                            <div className="col-md-12"style={{
+                              display: 'flex',
+                              paddingLeft: 0,
+                              position:'relative'
+                            }} >
+                          
+                                  {!isEmpty(bookingStatus.status) &&
+                                      (bookingStatus.status!=='WAIT'&&
+                                          bookingStatus.status!=='WAS_CHECK_IN'&&
+                                          bookingStatus.status!=='CANCEL'&&
+                                          bookingStatus.status!=='WAS_CHECK_OUT')&&
+                                          // <div className="popUpPartner">
+                                        <div className="popUpPartnerTop">
+                                        <div className="pop-name">
+                                          {bookingStatus.partnerName}
+                                        </div>
+                                        <div className="pop-des" >
+                                          {this.renderStatus()}
+                                          </div>
+                                        </div>
+                                    }
+                            </div>
+                            <div className="main-right" style={{marginTop:48}}>
                             <TableContainer component={Paper} >
                               <Table  aria-label="simple table" style={{minWidth:650}}  >
                                 <TableHead>
                                   <TableRow>
                                     <TableCell >#</TableCell>
                                     <TableCell align="left">Khách hàng</TableCell>
-                                    <TableCell align="left">Điện thoại</TableCell>
+                                    {/* <TableCell align="left">Điện thoại</TableCell> */}
                                     <TableCell align="left">Trạng thái</TableCell>
                                     <TableCell align="left">Thời gian</TableCell>
                                   </TableRow>
@@ -330,15 +406,17 @@ renderStatus = () =>{
                                     </TableCell>
                                     <TableCell>
                                       <div className="td-name">
-                                        <li className="td-li">{item.partnerName}</li>
+                                        <li className="td-li">{item.partnerName}
+                                        <p>{item.partnerPhoneNumber.replace(item.partnerPhoneNumber.slice(3,9,10),"ₓₓₓₓₓ")}</p>
+                                        </li>
                                         {/* <li className="td-li">{"0"+item.partnerPhone.phoneNumber.replace(item.partnerPhone.phoneNumber.slice(6,10),"***")}</li> */}
                                       </div>
                                     </TableCell>
-                                    <TableCell>
+                                    {/* <TableCell>
                                       <div className="td-phone">
-                                        <li className="td-li">{item.partnerPhoneNumber.replace(item.partnerPhoneNumber.slice(3,9,10),"ₓₓₓₓₓ")}</li>
+                                        <li className="td-li"></li>
                                       </div>
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell>
                                       <div className="td-dv" >
                                         <li className="td-li" style={{color:`${status!==null && status.color}`}}>
@@ -351,7 +429,7 @@ renderStatus = () =>{
                                         fontSize: '0.9rem',
                                         marginBottom: 0
                                       }}>
-                                        <Moment format="hh:mm">{item.updated}</Moment> - <Moment format="DD/MM/YYYY">{item.updated}</Moment>
+                                        <Moment format="hh:mm">{item.updated}</Moment> 
                                       </p>
                                       <p className="td-li" style={{
                                         fontSize: '12px',
@@ -370,26 +448,16 @@ renderStatus = () =>{
                               </TableContainer>
                             </div>
                           </div>
-                          <div className="col-md-3"style={{
-                            display: 'flex',
-                            paddingLeft: 0,
-                            position:'relative'
-                          }} >
-                         
-                                {!isEmpty(bookingStatus.status) &&
-                                    (bookingStatus.status!=='WAIT'&&
-                                        bookingStatus.status!=='WAS_CHECK_IN'&&
-                                        bookingStatus.status!=='CANCEL'&&
-                                        bookingStatus.status!=='WAS_CHECK_OUT')&&
-                                        <div className="popUpPartner">
-                                      <div className="pop-name">
-                                        {bookingStatus.partnerName}
-                                      </div>
-                                      <div className="pop-des" >
-                                        {this.renderStatus()}
-                                        </div>
-                                      </div>
-                                  }
+                          <div className ="col-md-4" style={{height: 'calc(100vh - 190px)',overflowY: 'scroll'}} >
+                            <label className="complete">Chúc mừng {bookingCheckout.length} khách hàng đã hoàn thành điều trị </label>
+                            <div className="statusCheckout">
+                              {bookingCheckout.length>0&&bookingCheckout.map((checkout,iii)=>{
+                                return checkout.status==="WAS_CHECK_OUT" &&<div className="itemCheckout" key={iii}>
+                                  <label>{iii+1}. {checkout?.partnerName}  -</label> <p>{checkout?.partnerPhoneNumber.replace(checkout.partnerPhoneNumber.slice(3,9,10),"ₓₓₓₓₓ")}</p>
+                             
+                                </div>
+                              })}
+                            </div>
                           </div>
                         </div>
                     </div>
