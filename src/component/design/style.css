@@ -12,11 +12,10 @@ body {
 }
 .header-page {
     background: linear-gradient(to right,#4b09b5,#E5244A);
+    padding: 8px;
 }
 .img-logo {
     width: 80%;
-    padding-top: 10px;
-    padding-bottom: 10px;
 }
 .container, .container-lg, .container-md, .container-sm, .container-xl {
     max-width: 2000px !important;
@@ -36,7 +35,7 @@ body {
 }
 .time-header {
     color: #FFF;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 600;
     display: flex;
     justify-content: flex-end;
@@ -55,18 +54,6 @@ body {
 tr:nth-child(even) {
     background-color: #fcf3fd;
 }
-/* table {
-    font-family: arial, sans-serif;
-    width: 100%;
-    margin: auto;
-} */
-/* th {
-    padding: 6px;
-    border: 1px solid #fff;
-}
-td {
-    padding: 10px;
-} */
 .main {
     height: auto;
 }
@@ -85,7 +72,7 @@ td {
     line-height: 35px;
     text-align: center;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 16px;
     background-color: #5259FF;
     color: #FFF;
     border-radius: 2px;
@@ -93,7 +80,7 @@ td {
 .height-main label {
     margin-top: 10px;
     text-shadow: 2px 2px #9d5b5b;
-    font-size: 20px;
+    font-size: 24px;
 }
 .footer-page {
     border: 1px solid rgb(82, 89, 255);
@@ -124,11 +111,11 @@ label.divDV {
     font-size: 12px;
     color: #ffffff;
 }
-#header {
+/* #header {
     text-align: center;
     color: white;
     font-size: 30px;
-}
+} */
   #footer {
     left: 0;
     bottom: 0;
@@ -200,6 +187,7 @@ label.divDV {
     color: #550bad;
     font-family: 'Open Sans',sans-serif;
     text-transform: uppercase;
+    margin-bottom: -16px;
 }
 .td-phone {
     color: #433c3c;
@@ -276,7 +264,7 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignLeft {
 .contentLabel div {
     position: relative;
     top: -112px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     font-family: Google Sans;
     left: 8px;
@@ -315,7 +303,7 @@ div#page {
     border-radius: 4px;
     background: #FFF;
     color: #6400ff;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     cursor: pointer;
 }
@@ -368,12 +356,13 @@ div#page {
     display: flex;
     background: linear-gradient(to right,#5da3f0,#05e36d);
     position: relative;
-    padding: 12px 8px 0px 8px;
+    padding: 24px 8px 6px 8px;
     border-radius: 4px;
     color: #fff;
-    position: fixed;
+    width: 100%;
+    height: 65px;
+    margin-bottom: 8px;
 }
-
 .popUpPartner {
     /*position: fixed;
     */top: 30%;
@@ -384,7 +373,11 @@ div#page {
     min-width: 320px;
     color: #fff;
 }
-
+.chillSize{
+    background: rgb(93 103 179);
+    padding: 0px 8px;
+    border-radius: 4px;
+}
 .pop-des {
     display: flex;
     /* flex-direction: column; */
@@ -394,7 +387,10 @@ div#page {
 .pop-name {
     text-transform: uppercase;
     font-weight: bold;
-    /* margin: 12px 12px 0px 12px; */
+    background: #2d0fcb;
+    height: 24px;
+    padding: 0px 8px;
+    border-radius: 24px;
 }
 
 span.pop-position {
@@ -421,10 +417,9 @@ ul {
     padding: 0;
 }
 .itemCheckout {
-    font-size: 14px;
     text-transform: uppercase;
     color: #473089;
-    margin: 8px;
+    margin-bottom: 8px;
     border-radius: 4px;
     padding: 4px;
     background: linear-gradient(to right,#9884ff,#05e36d);
@@ -433,34 +428,40 @@ ul {
 .complete {
     font-weight: 600;
     font-size: 16px;
-    text-transform: uppercase;
     color: #ffffff;
-    text-align: center;
+    height: 66px;
+    text-align: left;
     background: #ff8787;
     border-radius: 4px;
     padding: 8px;
-    position: fixed;
 }
 .itemCheckout p {
     margin-left: 8px;
-    font-size: 15px;
+    font-size: 12px;
     font-style: italic;
     color: #fffafa;
-    margin-top: -4px;
-    margin-bottom: 8px;
+    margin-bottom: 2px;
     font-weight: 500;
 }
-.itemCheckout label {
+.nameCheckout {
     background: #efab6f;
-    border-radius: 8px;
+    border-radius: 40px;
     color: #FFF;
     padding: 2px 12px 2px 12px;
     font-weight: 500;
 }
-.itemCheckout span {
+.timeCheckout {
     background: #FFF;
-    border-radius: 8px;
-    padding: 2px 8px 2px 8px;
-    font-size: 14px;
+    border-radius: 40px;
+    padding: 4px 8px 2px 8px;
+    font-size: 12px;
     color: #f00000;
+    margin-left: 8px;
+    font-weight: 500;
+}
+.chillCheckout {
+    display: flex;
+    margin: 4px;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
