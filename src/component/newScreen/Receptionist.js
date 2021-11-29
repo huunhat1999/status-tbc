@@ -194,10 +194,15 @@ reload = () =>{
       var branchCodeChill = localStorage.getItem('branch')
         console.log("check",booking);
         let tempListBookingWaiting = [...this.state.bookingWaiting];
+        let tempListBookingWaiting1 = [...this.state.bookingCheckout,booking.booking];
+        console.log({tempListBookingWaiting1});
         let indexBooking = tempListBookingWaiting.findIndex(item=> item._id === booking.booking._id);
+        let indexBooking1 = tempListBookingWaiting1.findIndex(item=> item._id === booking.booking._id);
+        console.log({indexBooking1});
+        console.log({indexBooking});
         if(booking.booking.status === "WAS_CHECK_OUT"){
-          // tempListBookingWaiting.splice(indexBooking,1)
-          this.setState({bookingWaiting:tempListBookingWaiting, openContent:true},()=>{
+          tempListBookingWaiting.splice(indexBooking,1)
+          this.setState({bookingWaiting:tempListBookingWaiting,openContent:true},()=>{
             setTimeout(() => {
               this.setState({openContent:false})
             },5000);
@@ -214,8 +219,8 @@ reload = () =>{
         // }
         if(booking.booking.status === "WAS_CHECK_OUT"){
           console.log("ahihi");
-        tempListBookingWaiting[indexBooking] = booking.booking;
-        this.setState({bookingCheckout:tempListBookingWaiting})
+        this.setState({bookingCheckout:tempListBookingWaiting1})
+        this.scrollToBottom()
         }
         else if(indexBooking !==-1 && branchCodeChill === booking?.booking?.branchCode){
             console.log(branchCodeChill);
@@ -356,7 +361,7 @@ renderStatus = () =>{
                   <div className="container">
                     <div className="main-page">
                         <div className="row" >
-                          <div className="col-md-8" style={{height: 'calc(100vh - 190px)',overflowY: 'scroll'}} ref={this.chatContainer} onScroll={this.onScroll} >
+                          <div className="col-md-9" style={{height: 'calc(100vh - 190px)',overflowY: 'scroll',paddingLeft:40}} ref={this.chatContainer} onScroll={this.onScroll} >
                             <div className="col-md-12"style={{
                               display: 'flex',
                               paddingLeft: 0,
@@ -448,12 +453,13 @@ renderStatus = () =>{
                               </TableContainer>
                             </div>
                           </div>
-                          <div className ="col-md-4" style={{height: 'calc(100vh - 190px)',overflowY: 'scroll'}} >
+                          <div className ="col-md-3" style={{height: 'calc(100vh - 190px)',overflowY: 'scroll'}} ref={this.chatContainer} onScroll={this.onScroll}>
                             <label className="complete">Chúc mừng {bookingCheckout.length} khách hàng đã hoàn thành điều trị </label>
-                            <div className="statusCheckout">
+                            <div className="statusCheckout" style={{marginTop:66}}>
                               {bookingCheckout.length>0&&bookingCheckout.map((checkout,iii)=>{
                                 return checkout.status==="WAS_CHECK_OUT" &&<div className="itemCheckout" key={iii}>
-                                  <label>{iii+1}. {checkout?.partnerName}  -</label> <p>{checkout?.partnerPhoneNumber.replace(checkout.partnerPhoneNumber.slice(3,9,10),"ₓₓₓₓₓ")}</p>
+                                  <label>{iii+1}. {checkout?.partnerName}</label> <span><Moment format="DD-MM-YYY HH:ss">{checkout?.checkOutAt}</Moment></span>
+                                   <p>{checkout?.partnerPhoneNumber.replace(checkout.partnerPhoneNumber.slice(3,9,10),"ₓₓₓₓₓ")}</p>
                              
                                 </div>
                               })}
