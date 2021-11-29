@@ -8,7 +8,7 @@ import {functionColorStatus} from '../../ListReceptionist'
 import _, { isEmpty } from "lodash"
 import {socket} from '../../socket/Socket'
 import { apiReceptionist } from '../../api/Api';
-import autoscroll from 'autoscroll-react'
+// import autoscroll from 'autoscroll-react'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -19,6 +19,7 @@ import Paper from '@material-ui/core/Paper';
 import Content from './Content';
 import ActionBranch from './ActionBranch';
 import {token} from '../Token'
+import Marquee from "react-smooth-marquee"
 
 const findStatus = (data, val) => {
   var tmp = _.filter(data, {listStatus: val})
@@ -35,6 +36,7 @@ const findStatus = (data, val) => {
 
 class Receptionist extends Component {
   chatContainer = React.createRef();
+  chatContainer1 = React.createRef();
   constructor(props) {
     super(props);
     document.title="LỄ TÂN";
@@ -63,6 +65,16 @@ scrollToBottom = () => {
   }
   
 };
+scrollToBottom1 = () => {
+  if(!isEmpty(this.chatContainer.current))
+  {
+      const scroll = this.chatContainer1.current?.scrollHeight - this.chatContainer1.current.clientHeight;
+     
+      this.chatContainer1.current.scrollTo(0,scroll);
+      console.log("scroll1",scroll);
+  }
+  
+};
 openBranch = () => {
   this.setState({openBranch:true})
 }
@@ -72,10 +84,12 @@ closeBranch = () => {
 componentDidUpdate(prevProps, prevState) {
     if (this.props.isSend===false) 
       {
-      this.scrollToBottom(); 
+      this.scrollToBottom();
+      this.scrollToBottom1();  
       }
   console.log('componentDidUpdate scroll')
   this.scrollToBottom(); 
+  this.scrollToBottom1(); 
 }
 
 onScroll = () => {
@@ -85,12 +99,18 @@ onScroll = () => {
   {
   }
 } 
+onScroll1 = () => {
+  const scrollY = window.scrollY //Don't get confused by what's scrolling - It's not the window
+  const scrollTop = this.chatContainer1.current.scrollTop
+  if(scrollTop===0)
+  {
+  }
+} 
+ 
 reload = () =>{
   var branchCode = localStorage.getItem('branch')
-  console.log(branchCode);
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-    console.log("tokenRes",token);
     axios.defaults.headers.token = token
     axios.post(apiReceptionist,{
       "condition":{
@@ -101,6 +121,9 @@ reload = () =>{
             branchCode:{
               in: [branchCode]
            },
+           status:{
+            notIn:['WAS_CHECK_OUT']
+          }
         },
         "sort": {
           "checkInAt":1
@@ -109,7 +132,6 @@ reload = () =>{
         "page": 1
     })
     .then(res => {
-      console.log("bookingFilterssss",res.data);
         this.setState({bookingWaiting:res.data.data})
     })
     axios.post(apiReceptionist,{
@@ -133,16 +155,13 @@ reload = () =>{
     })
     .then(res => {
         this.setState({bookingCheckout:res.data.data})
-        console.log("bookingCheckout",res.data);
     })
     
 }
   componentDidMount(){
     var branchCode = localStorage.getItem('branch')
-    console.log(branchCode);
     let from = new Date().setHours(0,0)
     let to = new Date().setHours(23,59)
-    console.log("tokenRes",token);
     axios.defaults.headers.token = token
     axios.post(apiReceptionist,{
       "condition":{
@@ -153,6 +172,9 @@ reload = () =>{
             branchCode:{
               in: [branchCode]
            },
+           status:{
+            notIn:['WAS_CHECK_OUT']
+          }
         },
         "sort": {
           "checkInAt":1
@@ -162,7 +184,6 @@ reload = () =>{
     })
     .then(res => {
         this.setState({bookingWaiting:res.data.data})
-        console.log("bookingFilter",res.data);
     })
     axios.post(apiReceptionist,{
       "condition":{
@@ -185,47 +206,33 @@ reload = () =>{
     })
     .then(res => {
         this.setState({bookingCheckout:res.data.data})
-        console.log("bookingCheckout",res.data);
     })
     socket.on('connect',function() {
-        console.log('connect ok', socket.id)
     });
     socket.on('SSC_BOOKING_UPDATE', (booking)=> {
       var branchCodeChill = localStorage.getItem('branch')
-        console.log("check",booking);
         let tempListBookingWaiting = [...this.state.bookingWaiting];
         let tempListBookingWaiting1 = [...this.state.bookingCheckout,booking.booking];
-        console.log({tempListBookingWaiting1});
         let indexBooking = tempListBookingWaiting.findIndex(item=> item._id === booking.booking._id);
-        let indexBooking1 = tempListBookingWaiting1.findIndex(item=> item._id === booking.booking._id);
-        console.log({indexBooking1});
-        console.log({indexBooking});
-        if(booking.booking.status === "WAS_CHECK_OUT"){
+        console.log("indexBooking",indexBooking);
+
+        if(booking.booking.status === "WAS_CHECK_OUT" && indexBooking >-1){
           tempListBookingWaiting.splice(indexBooking,1)
-          this.setState({bookingWaiting:tempListBookingWaiting,openContent:true},()=>{
+          this.setState({bookingWaiting:tempListBookingWaiting,bookingCheckout:tempListBookingWaiting1,partnerArr:booking.booking,openContent:true},()=>{
             setTimeout(() => {
               this.setState({openContent:false})
             },5000);
           }) 
           this.scrollToBottom()
         }
-        // if(branchCodeChill === booking?.booking?.branchCode){
-        //   console.log(branchCodeChill);
-        //   this.setState({bookingStatus:booking.booking,bookingWaiting: tempListBookingWaiting,partnerArr:booking.booking})
-        // }
         // if(booking.booking.status === "WAS_CHECK_OUT"){
-        //   tempListBookingWaiting[indexBooking] = booking.booking;
-        //   this.setState({bookingCheckout:tempListBookingWaiting})
+        //   this.setState({bookingCheckout:tempListBookingWaiting1})
+        //   this.scrollToBottom1(); 
         // }
-        if(booking.booking.status === "WAS_CHECK_OUT"){
-          console.log("ahihi");
-        this.setState({bookingCheckout:tempListBookingWaiting1})
-        this.scrollToBottom()
-        }
-        else if(indexBooking !==-1 && branchCodeChill === booking?.booking?.branchCode){
-            console.log(branchCodeChill);
+        else if(indexBooking >-1 && branchCodeChill === booking?.booking?.branchCode){
           tempListBookingWaiting[indexBooking] = booking.booking;
           this.setState({bookingStatus:booking.booking,bookingWaiting: tempListBookingWaiting,partnerArr:booking.booking})
+          this.scrollToBottom()
         }
         // this.setState({
         //   bookingWaiting: tempListBookingWaiting , partnerArr:booking.booking ,bookingStatus:booking.booking
@@ -235,12 +242,10 @@ reload = () =>{
     });
     socket.on('SSC_QUEUE_CONSULTATION_CREATE',(booking)=> {
       var branchCodeCreate = localStorage.getItem('branch')
-      console.log("checkQueue",booking);
       var tmp = booking.queue.booking
       tmp.queueConsultation=booking.queue
       let tempListBookingWaiting = [...this.state.bookingWaiting,tmp];
       if(branchCodeCreate === booking?.queue?.booking?.branchCode){
-        console.log(branchCodeCreate);
         this.setState({bookingStatus:booking.queue.booking,bookingWaiting: tempListBookingWaiting ,})
       }
       this.scrollToBottom()
@@ -252,7 +257,6 @@ reload = () =>{
 
   }
   doneChoose = (branch) =>{
-    console.log(branch);
     var branchCode = localStorage.getItem('branch')
     if(branchCode!==branch)
     {
@@ -278,42 +282,35 @@ renderStatus = () =>{
             margin: '0px 12px 0px 12px',
             fontSize: 14,
                 }}>
-              {status!==null?status.returnStatus:bookingStatus.status}
-          </span>
-          <span className="pop-position">
+              {status!==null?status.returnStatus:bookingStatus.status} 
+          </span> - <span className="pop-contact">{bookingStatus?.queueConsultation?.consultingRoom?.name}</span>
+          {/* <span className="pop-position">
             Tư vấn viên
-          </span>
-          <span className="pop-contact">
-            {bookingStatus?.queueConsultation?.consultingRoom?.name}
-          </span>
+          </span> */}
+ 
         </>
     case "IN_PROGRESS":
         return  <>
          <span className="pop-status"
-         style={{color:`${status!==null && status.color}`,
+         style={{
          display: 'block',
-            background: '#fff',
             width: 'fit-content',
             padding: '0px 12px',
             borderRadius: 16,
             margin: '0px 12px 0px 12px',
             fontSize: 14,
                 }}>
-              {status!==null?status.returnStatus:bookingStatus.status}
-          </span>
-          <span className="pop-position">
+              {status!==null?status.returnStatus:bookingStatus.status}  
+          </span> - <span className="pop-contact">{bookingStatus?.latestTreatmentQueue?.treatmentDoctor?.name}</span>
+          {/* <span className="pop-position">
             Bác sĩ
-          </span>
-          <span className="pop-contact">
-            {bookingStatus?.latestTreatmentQueue?.treatmentDoctor?.name}
-          </span>
+          </span> */}
         </>
   
     default:
       return  <span className="pop-status"
-      style={{color:`${status!==null && status.color}`,
+      style={{
       display: 'block',
-         background: '#fff',
          width: 'fit-content',
          padding: '0px 12px',
          borderRadius: 16,
@@ -339,7 +336,8 @@ renderStatus = () =>{
     render() {
        console.log("bookingStatus",this.state.bookingStatus);
        const {bookingStatus, bookingWaiting,bookingCheckout} = this.state
-       console.log({bookingCheckout});
+       console.log("bookingWaiting",bookingWaiting);
+
        let tmpBookingWaiting = bookingWaiting.filter((item)=> {
          if(item.status !=="WAIT" && 
          item.status !=="WAS_CHECK_IN" && 
@@ -358,33 +356,38 @@ renderStatus = () =>{
               {this.state.openContent === true ? <Content partnerName = {this.state.partnerArr.partnerName}/> : ""}
               <div id="content" >
                 <div className="main">
-                  <div className="container">
-                    <div className="main-page">
+                  <div className="container" style={{marginTop:12}}>
                         <div className="row" >
-                          <div className="col-md-9" style={{height: 'calc(100vh - 190px)',overflowY: 'scroll',paddingLeft:40}} ref={this.chatContainer} onScroll={this.onScroll} >
-                            <div className="col-md-12"style={{
-                              display: 'flex',
-                              paddingLeft: 0,
-                              position:'relative'
-                            }} >
-                          
-                                  {!isEmpty(bookingStatus.status) &&
-                                      (bookingStatus.status!=='WAIT'&&
-                                          bookingStatus.status!=='WAS_CHECK_IN'&&
-                                          bookingStatus.status!=='CANCEL'&&
-                                          bookingStatus.status!=='WAS_CHECK_OUT')&&
-                                          // <div className="popUpPartner">
-                                        <div className="popUpPartnerTop">
-                                        <div className="pop-name">
-                                          {bookingStatus.partnerName}
-                                        </div>
-                                        <div className="pop-des" >
-                                          {this.renderStatus()}
-                                          </div>
-                                        </div>
-                                    }
-                            </div>
-                            <div className="main-right" style={{marginTop:48}}>
+                          <div className="col-md-9"  >
+                              <div className="popup"style={{
+                                display: 'flex',
+                                paddingLeft: 0,
+                                position:'relative',height:66
+                              }} >
+                                    {!isEmpty(bookingStatus.status) &&
+                                        (bookingStatus.status!=='WAIT'&&
+                                            bookingStatus.status!=='WAS_CHECK_IN'&&
+                                            bookingStatus.status!=='CANCEL'&&
+                                            bookingStatus.status!=='WAS_CHECK_OUT')&&
+                                            // <div className="popUpPartner">
+                                       
+                                              <div className="popUpPartnerTop">
+                                                    {/* <div className="marquee">
+                                                <Marquee direction="left"> */}
+                                                <div className="pop-name">
+                                                  {bookingStatus.partnerName}
+                                                </div>
+                                                <div className="pop-des" >
+                                                  {this.renderStatus()}
+                                                  </div>
+                                                  {/* </Marquee>
+                                                  </div> */}
+                                              </div>
+                                         
+                                      }
+                                      
+                              </div>
+                            <div className="main-right" style={{height: 'calc(100vh - 270px)',overflowY: 'scroll',marginTop:8}} ref={this.chatContainer} onScroll={this.onScroll}>
                             <TableContainer component={Paper} >
                               <Table  aria-label="simple table" style={{minWidth:650}}  >
                                 <TableHead>
@@ -412,16 +415,11 @@ renderStatus = () =>{
                                     <TableCell>
                                       <div className="td-name">
                                         <li className="td-li">{item.partnerName}
-                                        <p>{item.partnerPhoneNumber.replace(item.partnerPhoneNumber.slice(3,9,10),"ₓₓₓₓₓ")}</p>
+                                        <p>{item.partnerPhoneNumber.replace(item.partnerPhoneNumber.slice(3,9,10),"••••")}</p>
                                         </li>
                                         {/* <li className="td-li">{"0"+item.partnerPhone.phoneNumber.replace(item.partnerPhone.phoneNumber.slice(6,10),"***")}</li> */}
                                       </div>
                                     </TableCell>
-                                    {/* <TableCell>
-                                      <div className="td-phone">
-                                        <li className="td-li"></li>
-                                      </div>
-                                    </TableCell> */}
                                     <TableCell>
                                       <div className="td-dv" >
                                         <li className="td-li" style={{color:`${status!==null && status.color}`}}>
@@ -453,20 +451,25 @@ renderStatus = () =>{
                               </TableContainer>
                             </div>
                           </div>
-                          <div className ="col-md-3" style={{height: 'calc(100vh - 190px)',overflowY: 'scroll'}} ref={this.chatContainer} onScroll={this.onScroll}>
-                            <label className="complete">Chúc mừng {bookingCheckout.length} khách hàng đã hoàn thành điều trị </label>
-                            <div className="statusCheckout" style={{marginTop:66}}>
+                          <div className ="col-md-3" >
+                            <div className="complete">Chúc mừng <br/> 
+                            <span className="chillSize" >{bookingCheckout.length}</span> khách hàng đã hoàn thành điều trị </div>
+                            {/* <div className="row" > */}
+                            <div className="statusCheckout" style={{height: 'calc(100vh - 270px)',overflowY: 'scroll',marginTop:8}} ref={this.chatContainer1} onScroll={this.onScroll1}>
                               {bookingCheckout.length>0&&bookingCheckout.map((checkout,iii)=>{
                                 return checkout.status==="WAS_CHECK_OUT" &&<div className="itemCheckout" key={iii}>
-                                  <label>{iii+1}. {checkout?.partnerName}</label> <span><Moment format="DD-MM-YYY HH:ss">{checkout?.checkOutAt}</Moment></span>
-                                   <p>{checkout?.partnerPhoneNumber.replace(checkout.partnerPhoneNumber.slice(3,9,10),"ₓₓₓₓₓ")}</p>
+                                  <div className="chillCheckout">
+                                    <div className="nameCheckout">{iii+1}. {checkout?.partnerName}</div>
+                                    <div className="timeCheckout"><Moment format="HH:ss">{checkout?.checkOutAt}</Moment></div>
+                                  </div>
+                                   <p>{checkout?.partnerPhoneNumber.replace(checkout.partnerPhoneNumber.slice(3,9,10),"••••")}</p>
                              
                                 </div>
                               })}
+                            {/* </div> */}
                             </div>
                           </div>
                         </div>
-                    </div>
                   </div>
                 </div> 
               </div>
@@ -478,4 +481,4 @@ renderStatus = () =>{
     }
 }
 
-export default autoscroll( Receptionist);
+export default ( Receptionist);
