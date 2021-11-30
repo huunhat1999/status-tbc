@@ -19,7 +19,7 @@ import Paper from '@material-ui/core/Paper';
 import Content from './Content';
 import ActionBranch from './ActionBranch';
 import {token} from '../Token'
-import Marquee from "react-smooth-marquee"
+import Marquee from "react-fast-marquee";
 
 const findStatus = (data, val) => {
   var tmp = _.filter(data, {listStatus: val})
@@ -273,14 +273,13 @@ renderStatus = () =>{
     case "IS_CONSULTING":
         return  <>
         <span className="pop-status"
-         style={{color:`${status!==null && status.color}`,
+         style={{
          display: 'block',
-            background: '#fff',
             width: 'fit-content',
             padding: '0px 12px',
             borderRadius: 16,
             margin: '0px 12px 0px 12px',
-            fontSize: 14,
+            fontSize: 16,
                 }}>
               {status!==null?status.returnStatus:bookingStatus.status} 
           </span> - <span className="pop-contact">{bookingStatus?.queueConsultation?.consultingRoom?.name}</span>
@@ -298,7 +297,7 @@ renderStatus = () =>{
             padding: '0px 12px',
             borderRadius: 16,
             margin: '0px 12px 0px 12px',
-            fontSize: 14,
+            fontSize: 16,
                 }}>
               {status!==null?status.returnStatus:bookingStatus.status}  
           </span> - <span className="pop-contact">{bookingStatus?.latestTreatmentQueue?.treatmentDoctor?.name}</span>
@@ -315,7 +314,7 @@ renderStatus = () =>{
          padding: '0px 12px',
          borderRadius: 16,
          margin: '0px 12px 0px 12px',
-         fontSize: 14,
+         fontSize: 16,
              }}>
            {status!==null?status.returnStatus:bookingStatus.status}
        </span>
@@ -336,7 +335,7 @@ renderStatus = () =>{
     render() {
        console.log("bookingStatus",this.state.bookingStatus);
        const {bookingStatus, bookingWaiting,bookingCheckout} = this.state
-       console.log("bookingWaiting",bookingWaiting);
+       console.log("bookingWaiting",bookingCheckout);
 
        let tmpBookingWaiting = bookingWaiting.filter((item)=> {
          if(item.status !=="WAIT" && 
@@ -364,27 +363,29 @@ renderStatus = () =>{
                                 paddingLeft: 0,
                                 position:'relative',height:66
                               }} >
-                                    {!isEmpty(bookingStatus.status) &&
+                                   
+                                              <div className="popUpPartnerTop">
+                                              <div className="waitPopup">❀ Hàng chờ</div>
+                                              {  !isEmpty(bookingStatus.status) &&
                                         (bookingStatus.status!=='WAIT'&&
                                             bookingStatus.status!=='WAS_CHECK_IN'&&
                                             bookingStatus.status!=='CANCEL'&&
                                             bookingStatus.status!=='WAS_CHECK_OUT')&&
-                                            // <div className="popUpPartner">
-                                       
-                                              <div className="popUpPartnerTop">
-                                                    {/* <div className="marquee">
-                                                <Marquee direction="left"> */}
+                                             
+                                                 <Marquee direction="left" speed={40} delay={0} gradientColor={0}>
+                                                <div className="marquee">
+                                               
                                                 <div className="pop-name">
                                                   {bookingStatus.partnerName}
                                                 </div>
                                                 <div className="pop-des" >
                                                   {this.renderStatus()}
                                                   </div>
-                                                  {/* </Marquee>
-                                                  </div> */}
+                                             
+                                                  </div>
+                                                  </Marquee>   
+                                                  }
                                               </div>
-                                         
-                                      }
                                       
                               </div>
                             <div className="main-right" style={{height: 'calc(100vh - 270px)',overflowY: 'scroll',marginTop:8}} ref={this.chatContainer} onScroll={this.onScroll}>
@@ -415,7 +416,7 @@ renderStatus = () =>{
                                     <TableCell>
                                       <div className="td-name">
                                         <li className="td-li">{item.partnerName}
-                                        <p>{item.partnerPhoneNumber.replace(item.partnerPhoneNumber.slice(3,9,10),"••••")}</p>
+                                        <div className="phoneLeftTable">{item.partnerPhoneNumber.replace(item.partnerPhoneNumber.slice(3,9,10),"••••••")}</div>
                                         </li>
                                         {/* <li className="td-li">{"0"+item.partnerPhone.phoneNumber.replace(item.partnerPhone.phoneNumber.slice(6,10),"***")}</li> */}
                                       </div>
@@ -452,7 +453,7 @@ renderStatus = () =>{
                             </div>
                           </div>
                           <div className ="col-md-3" >
-                            <div className="complete">Chúc mừng <br/> 
+                            <div className="complete">❀ <span style={{fontWeight:500}}>Chúc mừng</span> <br/> 
                             <span className="chillSize" >{bookingCheckout.length}</span> khách hàng đã hoàn thành điều trị </div>
                             {/* <div className="row" > */}
                             <div className="statusCheckout" style={{height: 'calc(100vh - 270px)',overflowY: 'scroll',marginTop:8}} ref={this.chatContainer1} onScroll={this.onScroll1}>
@@ -462,7 +463,7 @@ renderStatus = () =>{
                                     <div className="nameCheckout">{iii+1}. {checkout?.partnerName}</div>
                                     <div className="timeCheckout"><Moment format="HH:ss">{checkout?.checkOutAt}</Moment></div>
                                   </div>
-                                   <p>{checkout?.partnerPhoneNumber.replace(checkout.partnerPhoneNumber.slice(3,9,10),"••••")}</p>
+                                   <p>{checkout?.partnerPhoneNumber.replace(checkout.partnerPhoneNumber.slice(3,9,10),"••••••")}</p>
                              
                                 </div>
                               })}
