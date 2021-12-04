@@ -46,10 +46,8 @@ body {
     color: #FFF;
     font-size: 18px;
 }
-.marquee{
-    margin-right: -50px;
-    margin-left : -40px;
-    margin-top: 24px;
+.marquee {
+    display: flex;
 }
 tr:nth-child(even) {
     background-color: #fcf3fd;
@@ -116,7 +114,7 @@ label.divDV {
     color: white;
     font-size: 30px;
 } */
-  #footer {
+#footer {
     left: 0;
     bottom: 0;
     width: 100%;
@@ -184,10 +182,16 @@ label.divDV {
     height: 500px;
 }
 .td-name {
-    color: #550bad;
+    color: #5334c9;
     font-family: 'Open Sans',sans-serif;
     text-transform: uppercase;
-    margin-bottom: -16px;
+    font-weight: 500;
+}
+.phoneLeftTable {
+    color: #433c3c;
+    font-style: italic;
+    font-size: 12px;
+    font-weight: normal;
 }
 .td-phone {
     color: #433c3c;
@@ -353,14 +357,13 @@ div#page {
 }
 
 .popUpPartnerTop {
-    display: flex;
-    background: linear-gradient(to right,#5da3f0,#05e36d);
+    background: linear-gradient(to right,#4b09b5,#89148a);
     position: relative;
     padding: 24px 8px 6px 8px;
     border-radius: 4px;
     color: #fff;
     width: 100%;
-    height: 65px;
+    height: 66px;
     margin-bottom: 8px;
 }
 .popUpPartner {
@@ -374,25 +377,33 @@ div#page {
     color: #fff;
 }
 .chillSize{
-    background: rgb(93 103 179);
-    padding: 0px 8px;
+    background: #03a9f4;
     border-radius: 4px;
+    font-weight: bold;
+    padding: 2px 8px;
 }
 .pop-des {
     display: flex;
     /* flex-direction: column; */
-    padding-bottom: 12px;
+    /* padding-bottom: 12px; */
 }
 
 .pop-name {
     text-transform: uppercase;
-    font-weight: bold;
-    background: #2d0fcb;
+    font-weight: 500;
+    background: #ffffff;
     height: 24px;
-    padding: 0px 8px;
+    padding: 0px 12px;
     border-radius: 24px;
+    font-size: 16px;
+    color: #c81f5e;
 }
-
+.waitPopup {
+    position: relative;
+    margin-top: -16px;
+    font-weight: 500;
+    font-size: 16px;
+}
 span.pop-position {
     display: block;
     /* margin: 8px 12px 0px 12px; */
@@ -401,12 +412,14 @@ span.pop-position {
 }
 
 span.pop-contact {
-    background: #673ab7;
+    /* background: #673ab7; */
+    width: -moz-fit-content;
     width: fit-content;
     padding: 0px 12px;
     border-radius: 12px;
     margin: 0px 12px 0px 12px;
-    font-size: 14px;
+    font-size: 16px;
+    /* font-weight: 500; */
 }
 .MuiTableCell-root{
     padding: 8px!important;
@@ -423,15 +436,13 @@ ul {
     border-radius: 4px;
     padding: 4px;
     background: linear-gradient(to right,#9884ff,#05e36d);
-    width: 433px;
 }
 .complete {
-    font-weight: 600;
     font-size: 16px;
     color: #ffffff;
     height: 66px;
     text-align: left;
-    background: #ff8787;
+    background: linear-gradient(to right,#82138f,#df234e);
     border-radius: 4px;
     padding: 8px;
 }
@@ -441,10 +452,10 @@ ul {
     font-style: italic;
     color: #fffafa;
     margin-bottom: 2px;
-    font-weight: 500;
+    font-weight: normal;
 }
 .nameCheckout {
-    background: #efab6f;
+    background: #e38107;
     border-radius: 40px;
     color: #FFF;
     padding: 2px 12px 2px 12px;
