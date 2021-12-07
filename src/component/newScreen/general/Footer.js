@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import RoomIcon from '@material-ui/icons/Room';
 // import { Icon } from '@iconify/react';
 // import refreshIcon from '@iconify/icons-mdi-light/refresh';
 
@@ -14,7 +15,7 @@ class Footer extends Component {
               <div className="col-md-3">
                 <div className="branch-item">
                   <ul>  
-                    <div><i className="fi-rr-location-alt"></i><b>CHI NHÁNH BA THÁNG HAI</b></div>
+                    <div><RoomIcon className="RoomIcon"/><b>CHI NHÁNH BA THÁNG HAI</b></div>
                     <li>294 Ba Tháng Hai, Phường 12, Quận 10, Tp HCM</li>
                     <li>037.44.66666</li>
                   </ul>
@@ -24,7 +25,7 @@ class Footer extends Component {
               <div className="col-md-3">
                 <div className="branch-item">
                   <ul>  
-                    <div><i className="fi-rr-location-alt"></i><b>CHI NHÁNH GÒ VẤP</b></div>
+                    <div><RoomIcon className="RoomIcon"/><b>CHI NHÁNH GÒ VẤP</b></div>
                     <li>672 A40 Đường Phan Văn Trị, Phường 10, Quận Gò Vấp, Tp HCM</li>
                     <li>037.44.66666</li>
 
@@ -35,7 +36,7 @@ class Footer extends Component {
               <div className="col-md-3">
                 <div className="branch-item">
                   <ul>  
-                    <div><i className="fi-rr-location-alt"></i><b>CHI NHÁNH BIÊN HÒA</b></div>
+                    <div><RoomIcon className="RoomIcon"/><b>CHI NHÁNH BIÊN HÒA</b></div>
                     <li>PG02 Vincom Biên Hòa – 1096 Đường Phạm Văn Thuận, Phường Tân Mai, Tp Biên Hòa</li>
                     <li>037.44.66666</li>
                   
@@ -47,7 +48,7 @@ class Footer extends Component {
               <div className="col-md-3">
                 <div className="branch-item">
                   <ul>  
-                    <div><i className="fi-rr-location-alt"></i><b>CHI NHÁNH CẦN THƠ</b></div>
+                    <div><RoomIcon className="RoomIcon"/><b>CHI NHÁNH CẦN THƠ</b></div>
                     <li> 99 Đường Nguyễn Việt Hồng, Phường An Phú, Quận Ninh Kiều, Tp Cần Thơ</li>
                     <li>037.44.66666</li>
 
