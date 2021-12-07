@@ -266,7 +266,7 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignLeft {
     color: #720ca7;
 }
 .RoomIcon {
-    font-size: 14px;
+    font-size: 14px !important;
 }
 .contentLabel div {
     position: relative;
