@@ -505,9 +505,15 @@ renderStatusTreatment = () =>{
 render() {
   const {bookingStatusConsultant,bookingStatusTreatment,bookingCheckout,bookingConsultant,bookingTreatment} = this.state
   let bookingRandom=bookingCheckout
-  if(localStorage.getItem('branch')!=='GZRZqMRR'){
-    bookingRandom = [...data,...bookingCheckout]
-  }
+  // var d = new Date()
+  // var date = d.getDate()+'-'+(d.getMonth()+1)+'-'+d.getFullYear();
+  // var time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+  // var dateTime = date+' '+time;
+  // console.log(dateTime);
+  // // let timeStart = 
+  // if(localStorage.getItem('branch')!=='GZRZqMRR' && new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours() + 1, 0, 0, 0)!==dateTime){
+  //   bookingRandom = [...data,...bookingCheckout]
+  // }
 //  let tmpBookingWaiting = bookingWaiting.filter((item)=> {
 //    if(item.status !=="WAIT" && 
 //    item.status !=="WAS_CHECK_IN" && 
