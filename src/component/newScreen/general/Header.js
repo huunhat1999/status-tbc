@@ -23,7 +23,7 @@ class Header extends Component {
                     </div>
                     <div className="col-md-4">
                       <div className="time-header">
-                        <Clock format={'LTS' } ticking={true}></Clock>
+                        <Clock format={'HH:ss' } ticking={true}></Clock>
                         {/* <Clock format={' | dddd' } ticking={true}></Clock> */}
                         <Clock format={', DD-MM-YYYY'} ticking={true}></Clock>
                       </div>

@@ -6,7 +6,6 @@ div#page {
     box-shadow: rgb(0 0 0 / 64%) 0px 1.1px 2px 0px;
 }
 body {
-    background: #f9f9f9 !important;
     font-family: 'Open Sans',sans-serif !important;
     font-size: 14px;
 }
@@ -265,6 +264,9 @@ th.MuiTableCell-root.MuiTableCell-head.MuiTableCell-alignLeft {
     font-family: Google Sans;
     color: #720ca7;
 }
+.RoomIcon {
+    font-size: 14px !important;
+}
 .contentLabel div {
     position: relative;
     top: -112px;
@@ -388,16 +390,6 @@ div#page {
     /* padding-bottom: 12px; */
 }
 
-.pop-name {
-    text-transform: uppercase;
-    font-weight: 500;
-    background: #ffffff;
-    height: 24px;
-    padding: 0px 12px;
-    border-radius: 24px;
-    font-size: 16px;
-    color: #c81f5e;
-}
 .waitPopup {
     position: relative;
     margin-top: -16px;
@@ -411,16 +403,6 @@ span.pop-position {
     font-weight: bold;
 }
 
-span.pop-contact {
-    /* background: #673ab7; */
-    width: -moz-fit-content;
-    width: fit-content;
-    padding: 0px 12px;
-    border-radius: 12px;
-    margin: 0px 12px 0px 12px;
-    font-size: 16px;
-    /* font-weight: 500; */
-}
 .MuiTableCell-root{
     padding: 8px!important;
 }
@@ -432,17 +414,36 @@ ul {
 .itemCheckout {
     text-transform: uppercase;
     color: #473089;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     border-radius: 4px;
-    padding: 4px;
+    padding: 8px;
     background: linear-gradient(to right,#9884ff,#05e36d);
+    margin-left: 4px;
 }
 .complete {
     font-size: 16px;
     color: #ffffff;
     height: 66px;
     text-align: left;
-    background: linear-gradient(to right,#82138f,#df234e);
+    background: linear-gradient(to right,#b41c6f,#e3234c);
+    border-radius: 4px;
+    padding: 8px;
+}
+.consultant {
+    font-size: 16px;
+    color: #ffffff;
+    height: 66px;
+    text-align: left;
+    background: linear-gradient(to right,#4b0ab4,#7b1295);
+    border-radius: 4px;
+    padding: 8px;
+}
+.treatment {
+    font-size: 16px;
+    color: #ffffff;
+    height: 66px;
+    text-align: left;
+    background: linear-gradient(to right,#801292,#af1b71);
     border-radius: 4px;
     padding: 8px;
 }
@@ -475,4 +476,83 @@ ul {
     margin: 4px;
     flex-wrap: wrap;
     justify-content: space-between;
+}
+/* // */
+.mainHead {
+    display: flex;
+}
+.chillBody {
+    display: flex;
+}
+.containMain {
+    padding: 4px;
+}
+.mainConsultant {
+    padding: 4px;
+}
+.mainTreatment{
+    padding: 4px;
+}
+.mainHead {
+    padding: 8px;
+    /* border-radius: 4px; */
+    /* box-shadow: rgb(38 38 38 / 64%) 0px 1.1px 2px 0px; */
+    /* height: 48px; */
+    /* padding-top: 12px; */
+}
+.mainBody {
+    height: calc(100vh - 300px);
+    overflow-y: scroll;
+}
+.statusCheckout {
+    height: calc(100vh - 252px);
+    overflow-y: scroll;
+}
+.chillBody {
+    display: flex;
+    padding: 8px;
+}
+.chillStt {
+    font-size: 14px;
+}
+.chillName {
+    font-size: 14px;
+    font-weight: 500;
+   
+}
+.chillStatus {
+    font-size: 14px;
+    font-weight: 500;
+}
+.chillBody:nth-child(2n) {
+    background: #fcf3fd;
+}
+.itemPhone {
+    font-size: 12px;
+    color: #878787;
+    font-weight: normal;
+    font-style: italic;
+}
+.itemName {
+    font-size: 14px;
+    color: #344a54;
+    text-transform: uppercase;
+}
+.itemStatus {
+    font-size: 14px;
+}
+span.pop-contact {
+    width: -moz-fit-content;
+    width: fit-content;
+    padding: 0px 12px;
+    font-size: 14px;
+}
+.pop-name {
+    text-transform: uppercase;
+    font-weight: 500;
+    background: #ffffff;
+    padding: 2px 8px;
+    border-radius: 24px;
+    font-size: 12px;
+    color: #c81f5e;
 }

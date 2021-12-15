@@ -2,7 +2,7 @@ const functionColorStatus = [
     {
         listStatus:"WAIT_CONSULTATION",
         returnStatus:"Chờ tư vấn",
-        'color':"rgb(0 126 183)"  
+        'color':"rgb(44 158 58)"  
     },
     {
         listStatus:"IS_CONSULTING",
