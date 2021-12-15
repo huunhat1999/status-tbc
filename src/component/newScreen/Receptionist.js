@@ -373,7 +373,7 @@ renderStatus = () =>{
                                             bookingStatus.status!=='CANCEL'&&
                                             bookingStatus.status!=='WAS_CHECK_OUT')&&
                                              
-                                                 <Marquee direction="left" speed={40} delay={0} gradientColor={0}>
+                                                <marquee scrollamount="10">
                                                 <div className="marquee">
                                                
                                                 <div className="pop-name">
@@ -384,7 +384,7 @@ renderStatus = () =>{
                                                   </div>
                                              
                                                   </div>
-                                                  </Marquee>   
+                                                  </marquee>
                                                   }
                                               </div>
                                       
