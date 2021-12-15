@@ -611,7 +611,7 @@ render() {
                               marginBottom: 0,
                               fontStyle:'italic'
                             }}>
-                             <Moment format="HH:ss">{item.checkInAt}</Moment> - <span style={{color:'#03a9f4'}}><Moment format="HH:ss">{item.updated}</Moment> </span> 
+                             <Moment format="HH:mm">{item.checkInAt}</Moment> - <span style={{color:'#03a9f4'}}><Moment format="HH:mm">{item.updated}</Moment> </span> 
 
                             </div>
                           </div>
@@ -701,7 +701,7 @@ render() {
                             marginBottom: 0,
                             fontStyle:'italic'
                           }}>
-                             <Moment format="HH:ss">{item.checkInAt}</Moment> - <span style={{color:'#03a9f4'}}><Moment format="HH:ss">{item.updated}</Moment> </span> 
+                             <Moment format="HH:mm">{item.checkInAt}</Moment> - <span style={{color:'#03a9f4'}}><Moment format="HH:mm">{item.updated}</Moment> </span> 
                           </div>
                         </div>
                       </Grid>
@@ -722,7 +722,7 @@ render() {
                 return <div className="itemCheckout" key={iii}>
                   <div className="chillCheckout">
                     <div className="nameCheckout">{iii+1}. {checkout?.partnerName}</div>
-                    <div className="timeCheckout"><Moment format="HH:ss">{checkout?.checkOutAt}</Moment></div>
+                    <div className="timeCheckout"><Moment format="HH:mm">{checkout?.checkOutAt}</Moment></div>
                   </div>
                     <p>{checkout?.partnerPhoneNumber.replace(checkout.partnerPhoneNumber.slice(3,9,10),"••••••")}</p>
                 </div>
