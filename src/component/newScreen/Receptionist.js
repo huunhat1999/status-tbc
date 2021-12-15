@@ -375,6 +375,13 @@ reload = () =>{
           this.setState({bookingStatusTreatment:tempTreatment[0],partnerArr:booking.booking})
           }
         }
+        // if(booking.booking.status==="WAIT_PROGRESS" ){
+        //   let tempConsultant = this.state.bookingConsultant.filter(x=>x._id===booking.booking._id)
+        //   tempConsultant.splice(indexConsultant,1)
+        //   if(tempConsultant.length>0){
+        //     this.setState({bookingStatusConsultant:tempConsultant[0],partnerArr:booking.booking})
+        //   }
+        // }
       }
         // else if(branchCodeChill === booking?.booking?.branchCode){
         //   this.setState({partnerArr:booking.booking})
@@ -498,7 +505,9 @@ renderStatusTreatment = () =>{
 render() {
   const {bookingStatusConsultant,bookingStatusTreatment,bookingCheckout,bookingConsultant,bookingTreatment} = this.state
   let bookingRandom=bookingCheckout
-    // bookingRandom = [...data,...bookingCheckout]
+  if(localStorage.getItem('branch')!=='GZRZqMRR'){
+    bookingRandom = [...data,...bookingCheckout]
+  }
 //  let tmpBookingWaiting = bookingWaiting.filter((item)=> {
 //    if(item.status !=="WAIT" && 
 //    item.status !=="WAS_CHECK_IN" && 
@@ -550,7 +559,7 @@ render() {
             </div>
             <div className="mainConsultant" >
               <div className='mainHead'>
-                <Grid container>
+                <Grid container spacing={2}>
                   <Grid item xs={12} md={1}>
                     <div className='chillStt' >#</div>
                   </Grid>
@@ -596,7 +605,7 @@ render() {
                               marginBottom: 0,
                               fontStyle:'italic'
                             }}>
-                                                            <Moment format="HH:ss">{item.checkInAt}</Moment> - <span style={{color:'#03a9f4'}}><Moment format="HH:ss">{item.updated}</Moment> </span> 
+                             <Moment format="HH:ss">{item.checkInAt}</Moment> - <span style={{color:'#03a9f4'}}><Moment format="HH:ss">{item.updated}</Moment> </span> 
 
                             </div>
                           </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Clock from 'react-live-clock';
+import Moment from 'react-moment';
 import Marquee from "react-smooth-marquee"
 
 class Header extends Component {
@@ -11,7 +12,7 @@ class Header extends Component {
                   <div className="row">
                     <div className="col-md-2">
                       <div className="img-logo" >
-                        <img src="../2.png" alt="" width="100%" onClick={()=>this.props.toggleFullScreen()}/>
+                        <img src="../2.png" alt="" onClick={()=>this.props.toggleFullScreen()}/>
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -23,7 +24,7 @@ class Header extends Component {
                     </div>
                     <div className="col-md-4">
                       <div className="time-header">
-                        <Clock format={'HH:ss' } ticking={true}></Clock>
+                        <Clock format='hh:mm:ss' ticking={true}></Clock>
                         {/* <Clock format={' | dddd' } ticking={true}></Clock> */}
                         <Clock format={', DD-MM-YYYY'} ticking={true}></Clock>
                       </div>

@@ -12,22 +12,23 @@ const functionColorStatus = [
     {
         listStatus:"WAS_CONSULTED",
         returnStatus:"Hoàn thành tư vấn ",
-        'color':"#7C4DFF"  
+        'color':"rgb(3, 169, 244)"  
     },
     {
         listStatus:"WAIT_PROGRESS",
-        returnStatus:"Đang chờ điều trị",
-        'color':"#D81B60"    
+        returnStatus:"Chờ điều trị",
+        'color':"rgb(44 158 58)" 
+     
     },
     {
         listStatus:"IN_PROGRESS",
         returnStatus:"Đang điều trị ",
-        'color':"rgb(44 158 58)"  
+        'color':"#D81B60"    
     },
     {
         listStatus:"COMPLETE_PROGRESS",
         returnStatus:"Hoàn thành điều trị ",
-        'color':"#FF1744"    
+        'color':"rgb(3, 169, 244)"    
     },
     {
         listStatus:"WAS_CHECK_OUT",

@@ -5,6 +5,11 @@ div#page {
     position: relative;
     box-shadow: rgb(0 0 0 / 64%) 0px 1.1px 2px 0px;
 }
+img {
+    vertical-align: middle;
+    border-style: none;
+    max-height: 56px;
+}
 body {
     font-family: 'Open Sans',sans-serif !important;
     font-size: 14px;
@@ -12,9 +17,6 @@ body {
 .header-page {
     background: linear-gradient(to right,#4b09b5,#E5244A);
     padding: 8px;
-}
-.img-logo {
-    width: 80%;
 }
 .container, .container-lg, .container-md, .container-sm, .container-xl {
     max-width: 2000px !important;
@@ -419,6 +421,7 @@ ul {
     padding: 8px;
     background: linear-gradient(to right,#9884ff,#05e36d);
     margin-left: 4px;
+    padding-bottom: 4px;
 }
 .complete {
     font-size: 16px;
