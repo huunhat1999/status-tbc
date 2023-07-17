@@ -24,9 +24,9 @@ class Header extends Component {
                     </div>
                     <div className="col-md-4">
                       <div className="time-header">
-                        <Clock format='hh:mm:ss' ticking={true}></Clock>
+                        <Clock format='hh:mm:ss' ticking={true} timezone={'Asia/Ho_Chi_Minh'}></Clock>
                         {/* <Clock format={' | dddd' } ticking={true}></Clock> */}
-                        <Clock format={', DD-MM-YYYY'} ticking={true}></Clock>
+                        <Clock format={', DD-MM-YYYY'} ticking={true} timezone={'Asia/Ho_Chi_Minh'}></Clock>
                       </div>
                     </div>
                   </div>
